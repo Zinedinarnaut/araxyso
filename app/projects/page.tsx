@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { getGithubRepos } from "../actions/github"
-import { ChevronLeft, Star, GitFork } from 'lucide-react'
+import { ChevronLeft, Star } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function ProjectsPage() {
