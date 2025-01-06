@@ -1,101 +1,125 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
+import Link from "next/link"
+import { Terminal, Code2, Cpu, Wifi } from 'lucide-react'
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+      <div className="py-12">
+        <div className="relative">
+          <div className="flex justify-between items-start mb-8">
+            <div>
+              <h1 className="text-3xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+                ARAXYSO
+              </h1>
+              <div className="space-y-1">
+                <p className="text-purple-200/70 text-sm">software.engineer/reverse.engineer</p>
+                <p className="text-purple-200/50 text-sm">lvl 17 | code breaker | nano.innovator</p>
+              </div>
+            </div>
+            <div className="relative group">
+              <div
+                  className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"/>
+              <Image
+                  src="/download.jpg"
+                  alt="Profile"
+                  width={80}
+                  height={80}
+                  className="relative rounded-lg border border-purple-500/20 bg-black"
+              />
+            </div>
+          </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          <Card className="bg-black/50 border border-purple-900/20 p-6 backdrop-blur-sm">
+            <div className="space-y-6">
+              <p className="text-purple-200/70">Young prodigy specializing in software engineering and reverse
+                engineering, pushing the boundaries of nano-technology.</p>
+
+              <div>
+                <p className="text-purple-200/70 mb-3">Core competencies:</p>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    {icon: Terminal, text: "Reverse Engineering"},
+                    {icon: Code2, text: "Software Development"},
+                    {icon: Cpu, text: "Nano-Technology"},
+                    {icon: Wifi, text: "System Architecture"}
+                  ].map(({icon: Icon, text}) => (
+                      <div key={text} className="flex items-center gap-2 text-sm text-purple-200/50">
+                        <Icon className="h-4 w-4 text-purple-500/70"/>
+                        {text}
+                      </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-purple-200/70 mb-3">Current project status:</p>
+                <p className="text-purple-200/50 text-sm">Innovating at the nanoscale... [Progress: Ongoing]</p>
+              </div>
+            </div>
+          </Card>
+
+          <div className="mt-8 space-y-6">
+            <div>
+              <h2 className="text-sm font-medium text-purple-200/70 mb-3">Explore My Work</h2>
+              <div className="flex gap-3">
+                <Link href="/projects" className="text-purple-400 hover:text-purple-300 transition-colors">
+                  Projects
+                </Link>
+                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
+                <span className="text-purple-200/20">//</span>
+                <Link href="/companies" className="text-purple-400 hover:text-purple-300 transition-colors">
+                  Companies
+                </Link>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-medium text-purple-200/70 mb-3">Connect With Me</h2>
+              <div className="flex flex-wrap gap-2">
+                {['GitHub', 'LinkedIn', 'Twitter', 'Email'].map((social) => (
+                    <Button
+                        key={social}
+                        variant="outline"
+                        size="sm"
+                        className="border-purple-900/20 bg-black/50 text-purple-200/70 hover:text-purple-200 hover:border-purple-500/50 transition-colors"
+                    >
+                      {social}
+                    </Button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 flex flex-wrap gap-3">
+            <Badge
+                variant="outline"
+                className="border-purple-900/20 bg-black/50 text-purple-200/50"
+            >
+              Nanite
+            </Badge>
+            <Badge
+                variant="outline"
+                className="border-purple-900/20 bg-black/50 text-purple-200/50"
+            >
+              NanoD
+            </Badge>
+            <Badge
+                variant="outline"
+                className="border-purple-900/20 bg-black/50 text-purple-200/50"
+            >
+              Reverse Engineering
+            </Badge>
+            <Badge
+                variant="outline"
+                className="border-purple-900/20 bg-black/50 text-purple-200/50"
+            >
+              Software Engineering
+            </Badge>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      </div>
+  )
 }
