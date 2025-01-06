@@ -24,7 +24,7 @@ export default function CompaniesPage() {
           </CardHeader>
           <CardContent>
             <p className="text-purple-200/50">
-              Nanite is at the forefront of nano-scale engineering, developing cutting-edge technologies that push the boundaries of what's possible at the molecular level.
+              Nanite is at the forefront of nano-scale engineering, developing cutting-edge technologies that push the boundaries of what&#39;s possible at the molecular level.
             </p>
           </CardContent>
         </Card>
@@ -36,7 +36,7 @@ export default function CompaniesPage() {
           </CardHeader>
           <CardContent>
             <p className="text-purple-200/50">
-              NanoD focuses on creating immersive digital experiences by leveraging nano-technology. We're bridging the gap between the physical and digital worlds in unprecedented ways.
+              NanoD focuses on creating immersive digital experiences by leveraging nano-technology. We&#39;re bridging the gap between the physical and digital worlds in unprecedented ways.
             </p>
           </CardContent>
         </Card>
