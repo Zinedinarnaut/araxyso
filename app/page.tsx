@@ -3,7 +3,15 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
 import Link from "next/link"
-import { Terminal, Code2, Cpu, Wifi } from 'lucide-react'
+import {Terminal, Code2, Cpu, Wifi, Linkedin, Mail, Github} from 'lucide-react'
+import { SpotifyNowPlaying } from "@/components/SpotifyNowPlaying"
+
+
+const socialLinks = [
+  { name: 'GitHub', icon: Github, url: 'https://github.com/zinedinarnaut' },
+  { name: 'LinkedIn', icon: Linkedin, url: 'https://www.linkedin.com/in/zinedinarnaut' },
+  { name: 'Email', icon: Mail, url: 'mailto:inquiries@nanite.tech' },
+]
 
 export default function Home() {
   return (
@@ -16,12 +24,11 @@ export default function Home() {
               </h1>
               <div className="space-y-1">
                 <p className="text-purple-200/70 text-sm">software.engineer/reverse.engineer</p>
-                <p className="text-purple-200/50 text-sm">lvl 17 | code breaker | nano.innovator</p>
+                <p className="text-purple-200/50 text-sm">Age 17 | code breaker | nano.innovator</p>
               </div>
             </div>
             <div className="relative group">
-              <div
-                  className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"/>
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
               <Image
                   src="/download.jpg"
                   alt="Profile"
@@ -34,20 +41,19 @@ export default function Home() {
 
           <Card className="bg-black/50 border border-purple-900/20 p-6 backdrop-blur-sm">
             <div className="space-y-6">
-              <p className="text-purple-200/70">Young prodigy specializing in software engineering and reverse
-                engineering, pushing the boundaries of nano-technology.</p>
+              <p className="text-purple-200/70">Young prodigy specializing in software engineering and reverse engineering, pushing the boundaries of future technology.</p>
 
               <div>
                 <p className="text-purple-200/70 mb-3">Core competencies:</p>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    {icon: Terminal, text: "Reverse Engineering"},
-                    {icon: Code2, text: "Software Development"},
-                    {icon: Cpu, text: "Nano-Technology"},
-                    {icon: Wifi, text: "System Architecture"}
-                  ].map(({icon: Icon, text}) => (
+                    { icon: Terminal, text: "Reverse Engineering" },
+                    { icon: Code2, text: "Software Development" },
+                    { icon: Cpu, text: "Website Development" },
+                    { icon: Wifi, text: "System Architecture" }
+                  ].map(({ icon: Icon, text }) => (
                       <div key={text} className="flex items-center gap-2 text-sm text-purple-200/50">
-                        <Icon className="h-4 w-4 text-purple-500/70"/>
+                        <Icon className="h-4 w-4 text-purple-500/70" />
                         {text}
                       </div>
                   ))}
@@ -79,18 +85,30 @@ export default function Home() {
             <div>
               <h2 className="text-sm font-medium text-purple-200/70 mb-3">Connect With Me</h2>
               <div className="flex flex-wrap gap-2">
-                {['GitHub', 'LinkedIn', 'Twitter', 'Email'].map((social) => (
-                    <Button
-                        key={social}
-                        variant="outline"
-                        size="sm"
-                        className="border-purple-900/20 bg-black/50 text-purple-200/70 hover:text-purple-200 hover:border-purple-500/50 transition-colors"
+                {socialLinks.map((social) => (
+                    <a
+                        key={social.name}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                      {social}
-                    </Button>
+                      <Button
+                          variant="outline"
+                          size="sm"
+                          className="border-purple-900/20 bg-black/50 text-purple-200/70 hover:text-purple-200 hover:border-purple-500/50 transition-colors"
+                      >
+                        <social.icon className="h-4 w-4 mr-2"/>
+                        {social.name}
+                      </Button>
+                    </a>
                 ))}
               </div>
             </div>
+          </div>
+
+          <div className="mt-8">
+            <h2 className="text-sm font-medium text-purple-200/70 mb-3">Now Playing</h2>
+            <SpotifyNowPlaying/>
           </div>
 
           <div className="mt-12 flex flex-wrap gap-3">
@@ -104,7 +122,7 @@ export default function Home() {
                 variant="outline"
                 className="border-purple-900/20 bg-black/50 text-purple-200/50"
             >
-              NanoD
+              Retard
             </Badge>
             <Badge
                 variant="outline"
@@ -118,8 +136,21 @@ export default function Home() {
             >
               Software Engineering
             </Badge>
+            <Badge
+                variant="outline"
+                className="border-purple-900/20 bg-black/50 text-purple-200/50"
+            >
+              Software Development
+            </Badge>
+            <Badge
+                variant="outline"
+                className="border-purple-900/20 bg-black/50 text-purple-200/50"
+            >
+              Website Development
+            </Badge>
           </div>
         </div>
       </div>
   )
 }
+
