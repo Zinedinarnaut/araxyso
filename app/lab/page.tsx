@@ -36,7 +36,7 @@ const specs = {
     },
     micSetup: {
         microphone: "FIFINE XLR Dynamic",
-        audioInterface: "FIFINe Gaming audio mixer",
+        audioInterface: "FIFINE Gaming audio mixer",
         micArm: "FIFINE Microphone Arm",
         popFilter: "Stedman Proscreen XL"
     },
