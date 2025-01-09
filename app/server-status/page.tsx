@@ -6,7 +6,7 @@ import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 
 async function getServerStatus() {
-    const res = await fetch('http://localhost:3000/api/server-status', { cache: 'no-store' })
+    const res = await fetch('https://araxyso.nanod.cloud/api/server-status', { cache: 'no-store' })
     if (!res.ok) {
         throw new Error('Failed to fetch server status')
     }
