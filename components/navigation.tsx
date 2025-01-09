@@ -16,6 +16,7 @@ const navItems = [
         children: [
             { name: 'lab', path: '/lab' },
             { name: 'games', path: '/games' },
+            { name: 'server status', path: '/server-status' },
         ],
     },
     { name: 'progress', path: '/progress' },

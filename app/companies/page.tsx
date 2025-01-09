@@ -24,7 +24,7 @@ const workExperience = [
     name: "Proclad Construction",
     role: "Website Developer",
     description: "Developing innovative software solutions for the construction industry",
-    details: "At Proclad Construction, I'm responsible for creating Proclad's main website and I'm just a regular construction worker there.",
+    details: "At Proclad Construction, I manage the development of the company's main website while also contributing as a regular construction worker.",
     icon: HardHat,
     period: "2023/24 - Present",
     location: "Sydney, Australia",
