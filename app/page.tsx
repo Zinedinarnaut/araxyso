@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import Image from "next/image"
 import Link from "next/link"
-import { Terminal, Code2, Cpu, Wifi, Linkedin, Mail, Github, ExternalLink, Zap } from 'lucide-react'
+import { Terminal, Code2, Cpu, Wifi, Linkedin, Mail, Github, Zap } from 'lucide-react'
 import { SpotifyNowPlaying } from "@/components/SpotifyNowPlaying"
 
 const socialLinks = [
