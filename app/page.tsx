@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
 import Image from "next/image"
 import Link from "next/link"
-import {Terminal, Code2, Cpu, Wifi, Linkedin, Mail, Github} from 'lucide-react'
+import { Terminal, Code2, Cpu, Wifi, Linkedin, Mail, Github, ExternalLink, Zap } from 'lucide-react'
 import { SpotifyNowPlaying } from "@/components/SpotifyNowPlaying"
-
 
 const socialLinks = [
   { name: 'GitHub', icon: Github, url: 'https://github.com/zinedinarnaut' },
@@ -13,9 +13,16 @@ const socialLinks = [
   { name: 'Email', icon: Mail, url: 'mailto:inquiries@nanite.tech' },
 ]
 
+const skills = [
+  { name: "Reverse Engineering", progress: 90 },
+  { name: "Software Development", progress: 85 },
+  { name: "Web Development", progress: 80 },
+  { name: "System Architecture", progress: 75 },
+]
+
 export default function Home() {
   return (
-      <div className="py-12">
+      <div className="py-12 space-y-12">
         <div className="relative">
           <div className="flex justify-between items-start mb-8">
             <div>
@@ -74,7 +81,6 @@ export default function Home() {
                 <Link href="/projects" className="text-purple-400 hover:text-purple-300 transition-colors">
                   Projects
                 </Link>
-                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <span className="text-purple-200/20">//</span>
                 <Link href="/companies" className="text-purple-400 hover:text-purple-300 transition-colors">
                   Companies
@@ -109,6 +115,54 @@ export default function Home() {
           <div className="mt-8">
             <h2 className="text-sm font-medium text-purple-200/70 mb-3">Now Playing</h2>
             <SpotifyNowPlaying/>
+          </div>
+
+          <div className="mt-12">
+            <h2 className="text-sm font-medium text-purple-200/70 mb-3">Skills</h2>
+            <div className="space-y-4">
+              {skills.map((skill) => (
+                  <div key={skill.name} className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-purple-200/70">{skill.name}</span>
+                      <span className="text-purple-200/50">{skill.progress}%</span>
+                    </div>
+                    <Progress value={skill.progress} className="h-2" />
+                  </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-12">
+            <h2 className="text-sm font-medium text-purple-200/70 mb-3">Featured Project</h2>
+            <Card className="bg-black/50 border border-purple-900/20 p-6 backdrop-blur-sm">
+              <h3 className="text-xl font-semibold text-purple-200 mb-2">NanoInject</h3>
+              <p className="text-purple-200/70 mb-4">Advanced memory manipulation tool with real-time pattern scanning and signature-based detection avoidance.</p>
+              <div className="flex justify-between items-center">
+                <div className="flex space-x-2">
+                  <Badge variant="outline" className="border-purple-900/20 bg-black/50 text-purple-200/50">
+                    C++
+                  </Badge>
+                  <Badge variant="outline" className="border-purple-900/20 bg-black/50 text-purple-200/50">
+                    Reverse Engineering
+                  </Badge>
+                </div>
+                <Link href="/projects/nanoinject" className="text-purple-400 hover:text-purple-300 transition-colors flex items-center">
+                  View Project <ExternalLink className="ml-1 h-4 w-4" />
+                </Link>
+              </div>
+            </Card>
+          </div>
+
+          <div className="mt-12">
+            <Card className="bg-black/50 border border-purple-900/20 p-6 backdrop-blur-sm">
+              <div className="flex items-start space-x-4">
+                <Zap className="h-6 w-6 text-purple-400 flex-shrink-0 mt-1" />
+                <blockquote className="text-purple-200/70 italic">
+                  "The future is already here — it's just not evenly distributed."
+                  <footer className="text-purple-200/50 text-sm mt-2">- William Gibson</footer>
+                </blockquote>
+              </div>
+            </Card>
           </div>
 
           <div className="mt-12 flex flex-wrap gap-3">

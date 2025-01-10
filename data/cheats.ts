@@ -13,7 +13,7 @@ export const gamesCheats: GameCheat[] = [
             'Anti-detection system',
             'Real-time updates'
         ],
-        lastUpdated: '2024-01-07',
+        lastUpdated: '2025-01-07',
         language: 'C++',
         technicalDetails: `Core Technology
 
@@ -79,7 +79,7 @@ Remember, use this tool responsibly and at your own risk. We do not condone or s
             'Infinite Ammo, No Recoil',
             'God Mode'
         ],
-        lastUpdated: '2024-01-07',
+        lastUpdated: '2025-01-07',
         language: 'C++',
         technicalDetails: `Core Technology
 
@@ -144,7 +144,7 @@ Remember, use this tool at your own risk and always prioritize fair play in onli
             'ESP',
             'Powered by GDI'
         ],
-        lastUpdated: '2024-01-07',
+        lastUpdated: '2025-01-07',
         language: 'C++',
         technicalDetails: `Core Technology
 
@@ -198,5 +198,22 @@ If you encounter issues:
 
 Remember to use this tool ethically and at your own risk. We do not endorse or support the use of ESP in competitive or ranked game modes.`,
         credits: 'https://github.com/IMXNOOBX/cs2-external-esp'
+    },
+    {
+        "id": "4",
+        "name": "Raft - Mod Menu",
+        "game": "Raft",
+        "description": "A basic mod menu base for the game Raft.",
+        "status": "Undetected",
+        "features": [
+            "ESP",
+            "Player Modifier",
+            "Unlimited Item Spawn"
+        ],
+        "lastUpdated": "2025-01-10",
+        "language": "C++",
+        "technicalDetails": "Core Technology\n\nThis mod menu leverages advanced injection techniques to provide robust features such as ESP and player modifications for Raft. The tool is designed to operate with minimal system overhead while maintaining compatibility with the latest game updates.\n\nKey Features\n\n- Robust ESP: Highlights resources, items, and player entities for enhanced gameplay.\n- Unlimited Item Spawning: Spawn any item in the game with a simple command.\n- Player Modifier: Customize player attributes, including speed and health.\n\nImplementation Details\n\nDeveloped in C++, this tool uses secure injection methods to ensure undetected operation. Dynamic offset scanning and compatibility layers ensure smooth functioning across game updates.\n\nPerformance Optimization\n\nThis tool is optimized for low system impact, leveraging efficient memory management and streamlined rendering techniques to ensure smooth gameplay without compromising performance.",
+        "usageGuide": "Installation\n\n1. Ensure that you have the required .NET Framework and SharpMonoInjector installed.\n2. Download the mod menu package for Raft, which includes the necessary files and SharpMonoInjector.\n3. Extract the contents of the ZIP file to a folder on your system.\n\nLaunching the Mod Menu\n\n1. Open Raft and wait until you are in the main menu or a game session.\n2. Run SharpMonoInjector as an administrator.\n3. Select the Raft process from the process list in SharpMonoInjector.\n4. Browse to the provided DLL file (RaftHax.dll) and set the following parameters:\n   - Namespace: RaftHax\n   - Class name: Loader\n   - Method name: init\n5. Press the 'Inject' button to load the mod menu into the game.\n\nUsing the Mod Menu\n\n- Access the mod menu by using the designated hotkey (check documentation for default hotkey).\n- Use the interface to toggle features such as ESP, item spawning, and player modifiers.\n\nBest Practices\n\n- Always use the latest version of the mod menu to ensure compatibility.\n- Avoid using mods in multiplayer or competitive settings to maintain fair play.\n- Use the tool responsibly and adhere to community standards.\n\nTroubleshooting\n\nIf you encounter issues:\n- Verify that Raft and SharpMonoInjector are both running with the correct permissions.\n- Ensure that your antivirus or security software isn't blocking the injector or DLL file.\n- Refer to the documentation or community forums for additional help.\n\nRemember, the use of third-party tools is at your own risk. We do not endorse the use of mods in a way that violates the game's terms of service.",
+        "credits": "https://github.com/IMXNOOBX/cs2-external-esp"
     },
 ]
