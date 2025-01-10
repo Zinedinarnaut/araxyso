@@ -81,6 +81,7 @@ export default function Home() {
                 <Link href="/projects" className="text-purple-400 hover:text-purple-300 transition-colors">
                   Projects
                 </Link>
+                {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                 <span className="text-purple-200/20">//</span>
                 <Link href="/companies" className="text-purple-400 hover:text-purple-300 transition-colors">
                   Companies
