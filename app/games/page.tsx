@@ -91,6 +91,19 @@ const games = [
         tags: ["Horror", "Online Co-Op", "VR", "Multiplayer", "Co-Op"],
         description: "Phasmophobia is a 4 player online co-op psychological horror. Paranormal activity is on the rise and it’s up to you and your team to use all the ghost-hunting equipment at your disposal in order to gather as much evidence as you can.",
         platform: "PC"
+    },
+    {
+        id: 7,
+        title: "Helldivers 2",
+        image: "/helldivers.jpg",
+        video: "/movie480_vp9.webm",
+        playtime: 2532,
+        achievements: 31,
+        totalAchievements: 38,
+        lastPlayed: "2025-01-08",
+        tags: ["Action", "Online Co-Op", "PvE", "Multiplayer", "Co-Op"],
+        description: "The Galaxy’s Last Line of Offence. Enlist in the Helldivers and join the fight for freedom across a hostile galaxy in a fast, frantic, and ferocious third-person shooter.",
+        platform: "PC"
     }
 ]
 
