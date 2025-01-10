@@ -132,7 +132,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-12">
+{/*          <div className="mt-12">
             <h2 className="text-sm font-medium text-purple-200/70 mb-3">Featured Project</h2>
             <Card className="bg-black/50 border border-purple-900/20 p-6 backdrop-blur-sm">
               <h3 className="text-xl font-semibold text-purple-200 mb-2">NanoInject</h3>
@@ -151,15 +151,15 @@ export default function Home() {
                 </Link>
               </div>
             </Card>
-          </div>
+          </div>*/}
 
           <div className="mt-12">
             <Card className="bg-black/50 border border-purple-900/20 p-6 backdrop-blur-sm">
               <div className="flex items-start space-x-4">
                 <Zap className="h-6 w-6 text-purple-400 flex-shrink-0 mt-1" />
                 <blockquote className="text-purple-200/70 italic">
-                  "The future is already here — it's just not evenly distributed."
-                  <footer className="text-purple-200/50 text-sm mt-2">- William Gibson</footer>
+                  “Don’t compare your chapter 1 to someone else’s chapter 20.”
+                  <footer className="text-purple-200/50 text-sm mt-2">- Someone</footer>
                 </blockquote>
               </div>
             </Card>
