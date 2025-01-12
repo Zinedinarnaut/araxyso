@@ -4,8 +4,10 @@ import { NextResponse } from 'next/server'
 const SERVICES = [
     { name: 'Personal Website', url: 'https://araxyso.nanod.cloud' },
     { name: 'Host Panel', url: 'https://harc6r.easypanel.host' },
-    { name: 'Database', url: 'https://harc6r.easypanel.host' },
+    { name: 'Shiroko', url: 'https://shiroko.co' },
     { name: 'CDN(Coming Soon)', url: 'https://harc6r.easypanel.host' },
+    { name: 'Image Proxy', url: 'https://testing-img-proxy.harc6r.easypanel.host/' },
+    { name: 'N:ZA', url: 'https://testing-n-za.harc6r.easypanel.host/' },
 ]
 
 async function checkServiceStatus(url: string) {
