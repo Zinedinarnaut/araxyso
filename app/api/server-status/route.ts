@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server'
 // This would typically be in a separate file or environment variable
 const SERVICES = [
     { name: 'Personal Website', url: 'https://araxyso.nanod.cloud' },
-    { name: 'Host Panel', url: 'https://harc6r.easypanel.host' },
+    { name: 'Host Panel', url: 'https://lab.nanod.cloud' },
     { name: 'Shiroko', url: 'https://shiroko.co' },
     { name: 'CDN(Coming Soon)', url: 'https://harc6r.easypanel.host' },
-    { name: 'Image Proxy', url: 'https://testing-img-proxy.harc6r.easypanel.host/' },
-    { name: 'N:ZA', url: 'https://testing-n-za.harc6r.easypanel.host/' },
+    { name: 'Image Proxy', url: 'https://testing-img-proxy.harc6r.easypanel.host' },
+    { name: 'N:ZA', url: 'https://testing-n-za.harc6r.easypanel.host' },
 ]
 
 async function checkServiceStatus(url: string) {
