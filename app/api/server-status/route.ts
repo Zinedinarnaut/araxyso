@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server'
 const SERVICES = [
     { name: 'Personal Website', url: 'https://araxyso.nanod.cloud' },
     { name: 'Host Panel', url: 'https://lab.nanod.cloud' },
+    { name: 'Game Panel', url: 'https://testing-panel.harc6r.easypanel.host/' },
     { name: 'Shiroko', url: 'https://shiroko.co' },
     { name: 'CDN(Coming Soon)', url: 'https://harc6r.easypanel.host' },
     { name: 'Image Proxy', url: 'https://testing-img-proxy.harc6r.easypanel.host' },
