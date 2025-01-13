@@ -38,7 +38,7 @@ const specs = {
         microphone: "FIFINE XLR Dynamic",
         audioInterface: "FIFINE Gaming audio mixer",
         micArm: "FIFINE Microphone Arm",
-        popFilter: "Stedman Proscreen XL"
+        popFilter: "FIFINE Popfilter(default)"
     },
     futurePC: {
         cpu: "AMD Ryzen 7 7800X3D",
@@ -269,7 +269,7 @@ export default function LabPage() {
                                 <p className="text-purple-200/70">{specs.futurePC.storage}</p>
                             </div>
                             <div>
-                                <h3 className="font-medium text-purple-200">Storage</h3>
+                                <h3 className="font-medium text-purple-200">Second Storage</h3>
                                 <p className="text-purple-200/70">{specs.futurePC.storage2}</p>
                             </div>
                             <div>
