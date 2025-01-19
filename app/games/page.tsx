@@ -104,6 +104,32 @@ const games = [
         tags: ["Action", "Online Co-Op", "PvE", "Multiplayer", "Co-Op"],
         description: "The Galaxy’s Last Line of Offence. Enlist in the Helldivers and join the fight for freedom across a hostile galaxy in a fast, frantic, and ferocious third-person shooter.",
         platform: "PC"
+    },
+    {
+        id: 8,
+        title: "Ready Or Not",
+        image: "/ready.jpg",
+        video: "/movie480_vp9.webm",
+        playtime: 565,
+        achievements: 3,
+        totalAchievements: 33,
+        lastPlayed: "2025-01-19",
+        tags: ["Action", "Online Co-Op", "PvE", "Multiplayer", "Co-Op"],
+        description: "Ready or Not is an intense, tactical, first-person shooter that depicts a modern-day world in which SWAT police units are called to defuse hostile and confronting situations.",
+        platform: "PC"
+    },
+    {
+        id: 9,
+        title: "Sons of the forest",
+        image: "/sons.jpg",
+        video: "/movie480_vp9.webm",
+        playtime: 1341,
+        achievements: 32,
+        totalAchievements: 32,
+        lastPlayed: "2025-01-19",
+        tags: ["Survival", "Online Co-Op", "PvE", "Multiplayer", "Co-Op", "Open World"],
+        description: "Sent to find a missing billionaire on a remote island, you find yourself in a cannibal-infested hellscape. Craft, build, and struggle to survive, alone or with friends, in this terrifying new open-world survival horror simulator.",
+        platform: "PC"
     }
 ]
 
