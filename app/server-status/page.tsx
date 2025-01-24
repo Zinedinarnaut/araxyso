@@ -1,16 +1,21 @@
-import { Suspense } from 'react'
+import { Suspense } from "react"
 import { ServerStatusList } from '@/components/server-status-list'
 import { ServerStatusRefresh } from '@/components/server-status-refresh'
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { ChevronLeft } from 'lucide-react'
-import Link from 'next/link'
+import { ChevronLeft, AlertTriangle } from "lucide-react"
+import Link from "next/link"
 
 async function getServerStatus() {
-    const res = await fetch('https://araxyso.nanod.cloud/api/server-status', { cache: 'no-store' })
-    if (!res.ok) {
-        throw new Error('Failed to fetch server status')
+    try {
+        const res = await fetch("http://localhost:3000/api/server-status", { cache: "no-store" })
+        if (!res.ok) {
+            throw new Error("Failed to fetch server status")
+        }
+        return res.json()
+    } catch (error) {
+        console.error("Error fetching server status:", error)
+        return null
     }
-    return res.json()
 }
 
 export default async function ServerStatusPage() {
@@ -38,7 +43,14 @@ export default async function ServerStatusPage() {
                 </CardHeader>
                 <CardContent>
                     <Suspense fallback={<div className="text-purple-200/50">Loading server status...</div>}>
-                        <ServerStatusList initialStatus={initialStatus} />
+                        {initialStatus ? (
+                            <ServerStatusList initialStatus={initialStatus} />
+                        ) : (
+                            <div className="flex items-center justify-center p-4 bg-red-900/10 rounded-lg border border-red-500/20 text-red-400">
+                                <AlertTriangle className="h-5 w-5 mr-2" />
+                                Failed to load initial server status. Please try refreshing the page.
+                            </div>
+                        )}
                     </Suspense>
                 </CardContent>
             </Card>
