@@ -7,38 +7,38 @@ import Link from 'next/link'
 // Mock data for computer specs
 const specs = {
     desktop: {
-        cpu: "AMD Ryzen 5 2600 Six Core Processor",
+        cpu: "AMD Ryzen 5 2600 Six-Core Processor",
         gpu: "NVIDIA GeForce RTX 3050",
-        ram: "Corsair Vengence RGB 4264Mhz (4x8) DDR4",
+        ram: "Corsair Vengeance RGB Pro 32GB (4x8GB) DDR4 4266MHz",
         storage: "500GB NVMe SSD + 960GB SATA SSD",
         motherboard: "ASUS ROG Crosshair VIII Dark Hero",
         cooling: "Corsair Air Cooler",
-        psu: "Gigabyte P750GM 750w modular psu",
+        psu: "Gigabyte P750GM 750W Modular PSU",
         case: "Thermaltake",
         monitors: [
             "LG UltraWide 24\" 60Hz",
-            "Samsung Odyssey Curved G5 34\" Ultrawide FreeSync QHD 165hz HDR10 21:9"
+            "Samsung Odyssey Curved G5 34\" Ultrawide QHD 165Hz FreeSync HDR10 (21:9)"
         ]
     },
     laptop: {
-        model: "HP Victus 16.1",
-        cpu: "AMD Ryzen 5 5600H",
-        gpu: "NVIDIA GeForce RTX 3050 Dedicated",
-        ram: "16GB DDR4 3200Mhz 2x8GB",
-        storage: "512 GB PCIe® NVMe™ TLC M.2 SSD",
-        display: "16.1\" 1440p 144Hz"
+        model: "Apple MacBook Pro M4",
+        cpu: "Apple M4 Chip (8-core CPU, 10-core GPU, 16-core Neural Engine)",
+        gpu: "Integrated Apple M4 GPU (10-core)",
+        ram: "16GB Unified Memory",
+        storage: "512GB SSD",
+        display: "16.2\" Liquid Retina XDR Display with Nano-Texture Glass (3456 x 2234 pixels, 120Hz ProMotion)"
     },
     accessories: {
-        mouse: "Glorious Model 0",
-        keyboard: "Ducky two Mini with custom made switches",
+        mouse: "Glorious Model O",
+        keyboard: "Ducky One 2 Mini with Custom Switches",
         headphones: "PS5 Black Edition Headset",
-        controller: "PS5 Controller with Duelsense support"
+        controller: "PS5 DualSense Controller"
     },
     micSetup: {
-        microphone: "FIFINE XLR Dynamic",
-        audioInterface: "FIFINE Gaming audio mixer",
+        microphone: "FIFINE XLR Dynamic Microphone",
+        audioInterface: "FIFINE Gaming Audio Mixer",
         micArm: "FIFINE Microphone Arm",
-        popFilter: "FIFINE Popfilter(default)"
+        popFilter: "FIFINE Pop Filter (Included)"
     },
     futurePC: {
         cpu: "AMD Ryzen 7 7800X3D",

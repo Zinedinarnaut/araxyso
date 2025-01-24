@@ -14,9 +14,9 @@ const socialLinks = [
 ]
 
 const skills = [
-  { name: "Reverse Engineering", progress: 90 },
+  { name: "Reverse Engineering", progress: 35 },
   { name: "Software Development", progress: 85 },
-  { name: "Web Development", progress: 80 },
+  { name: "Web Development", progress: 85 },
   { name: "System Architecture", progress: 75 },
 ]
 
@@ -31,7 +31,7 @@ export default function Home() {
               </h1>
               <div className="space-y-1">
                 <p className="text-purple-200/70 text-sm">software.engineer/reverse.engineer</p>
-                <p className="text-purple-200/50 text-sm">Age 17 | code breaker | nano.innovator</p>
+                <p className="text-purple-200/50 text-sm">Age 18 | code breaker | nano.innovator</p>
               </div>
             </div>
             <div className="relative group">
