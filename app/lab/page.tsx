@@ -26,7 +26,7 @@ const specs = {
         gpu: "Integrated Apple M4 GPU (10-core)",
         ram: "16GB Unified Memory",
         storage: "512GB SSD",
-        display: "16.2\" Liquid Retina XDR Display with Nano-Texture Glass (3456 x 2234 pixels, 120Hz ProMotion)"
+        display: "14\" Liquid Retina XDR Display with Nano-Texture Glass (3024 x 1964 pixels, 120Hz ProMotion)"
     },
     accessories: {
         mouse: "Glorious Model O",
