@@ -14,7 +14,7 @@ export const metadata = {
 export default function BlogPage() {
     return (
         <div className="py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-7xl mx-auto">
                 <div className="mb-8 flex items-center gap-2">
                     <Link href="/" className="text-purple-400 hover:text-purple-300 transition-colors">
                         <ChevronLeft className="h-4 w-4" />
@@ -26,17 +26,17 @@ export default function BlogPage() {
                     Araxyso Blog
                 </h1>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {(blogPosts as BlogPost[]).map((post) => (
                         <Card
                             key={post.id}
                             className="bg-black/50 border border-purple-900/20 hover:border-purple-500/50 transition-colors group overflow-hidden flex flex-col"
                         >
-                            <div className="relative w-full h-48">
+                            <div className="relative w-full h-56">
                                 <Image src={post.headerImage || "/placeholder.svg"} alt={post.title} fill className="object-cover" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                             </div>
-                            <CardContent className="p-6 flex-grow flex flex-col">
+                            <CardContent className="p-8 flex-grow flex flex-col">
                                 <Link href={`/blog/${post.id}`}>
                                     <h2 className="text-2xl font-semibold text-purple-200 mb-2 group-hover:text-purple-100 transition-colors">
                                         {post.title}

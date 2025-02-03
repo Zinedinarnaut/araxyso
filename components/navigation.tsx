@@ -1,44 +1,42 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { motion, AnimatePresence } from "framer-motion"
+import { Menu, X, ChevronDown } from "lucide-react"
 
 const navItems = [
-    { name: 'home', path: '/' },
-    { name: 'projects', path: '/projects' },
-    { name: 'companies', path: '/companies' },
+    { name: "Home", path: "/" },
+    { name: "Projects", path: "/projects" },
+    { name: "Companies", path: "/companies" },
     {
-        name: 'Journey',
-        children: [
-            { name: 'Blog', path: '/blog' },
-        ],
+        name: "Journey",
+        children: [{ name: "Blog", path: "/blog" }],
     },
     {
-        name: 'pc',
+        name: "Pc",
         children: [
-            { name: 'Lab', path: '/lab' },
-            { name: 'Games', path: '/games' },
-            { name: 'Server status', path: '/server-status' },
-            { name: 'Cheats', path: '/cheats' },
+            { name: "Lab", path: "/lab" },
+            { name: "Games", path: "/games" },
+            { name: "Server status", path: "/server-status" },
+            { name: "Cheats", path: "/cheats" },
         ],
     },
-    { name: 'Progress', path: '/progress' },
+    { name: "Progress", path: "/progress" },
 ]
 
 export function Navigation() {
     const [isOpen, setIsOpen] = useState(false)
-    const [isPCOpen, setIsPCOpen] = useState(false)
+    const [openDropdown, setOpenDropdown] = useState<string | null>(null)
     const pathname = usePathname()
 
-    const handlePCToggle = () => {
-        setIsPCOpen(!isPCOpen)
+    const handleDropdownToggle = (name: string) => {
+        setOpenDropdown(openDropdown === name ? null : name)
     }
 
     return (
-        <header className="py-4 border-b border-purple-900/20">
+        <header className="py-4 border-b border-purple-900/20 relative z-40">
             <nav className="flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2 group">
                     <div className="h-6 w-6 bg-purple-500/20 rounded-sm border border-purple-500/30 group-hover:border-purple-500/60 transition-colors" />
@@ -49,31 +47,36 @@ export function Navigation() {
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex gap-6 items-center">
-                    {navItems.map((item) => (
+                    {navItems.map((item) =>
                         item.children ? (
                             <div key={item.name} className="relative group">
                                 <button
-                                    onClick={handlePCToggle}
+                                    onClick={() => handleDropdownToggle(item.name)}
                                     className="text-sm text-purple-200/50 hover:text-purple-200 transition-colors flex items-center gap-1"
                                 >
                                     {item.name}
-                                    <ChevronDown size={14} className={`transform transition-transform ${isPCOpen ? 'rotate-180' : ''}`} />
+                                    <ChevronDown
+                                        size={14}
+                                        className={`transform transition-transform ${openDropdown === item.name ? "rotate-180" : ""}`}
+                                    />
                                 </button>
                                 <AnimatePresence>
-                                    {isPCOpen && (
+                                    {openDropdown === item.name && (
                                         <motion.div
                                             initial={{ opacity: 0, y: -10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -10 }}
                                             transition={{ duration: 0.2 }}
-                                            className="absolute left-0 mt-2 w-40 bg-black/90 border border-purple-500/30 rounded-md overflow-hidden"
+                                            className="absolute left-0 mt-2 w-40 bg-black/90 border border-purple-500/30 rounded-md overflow-hidden z-50"
                                         >
                                             {item.children.map((subItem) => (
                                                 <Link
                                                     key={subItem.name}
                                                     href={subItem.path}
                                                     className={`block px-4 py-2 text-sm ${
-                                                        pathname === subItem.path ? 'bg-purple-500/20 text-purple-200' : 'text-purple-200/50 hover:bg-purple-500/10 hover:text-purple-200'
+                                                        pathname === subItem.path
+                                                            ? "bg-purple-500/20 text-purple-200"
+                                                            : "text-purple-200/50 hover:bg-purple-500/10 hover:text-purple-200"
                                                     } transition-colors`}
                                                 >
                                                     {subItem.name}
@@ -88,14 +91,14 @@ export function Navigation() {
                                 key={item.name}
                                 href={item.path}
                                 className={`text-sm ${
-                                    pathname === item.path ? 'text-purple-200' : 'text-purple-200/50'
+                                    pathname === item.path ? "text-purple-200" : "text-purple-200/50"
                                 } hover:text-purple-200 transition-colors relative group`}
                             >
                                 {item.name}
                                 <span className="absolute -bottom-px left-0 h-px w-0 bg-purple-500 group-hover:w-full transition-all" />
                             </Link>
-                        )
-                    ))}
+                        ),
+                    )}
                 </div>
 
                 {/* Mobile Navigation Toggle */}
@@ -112,37 +115,42 @@ export function Navigation() {
                 {isOpen && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
+                        animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
                         className="md:hidden mt-4"
                     >
                         <div className="flex flex-col space-y-2">
-                            {navItems.map((item) => (
+                            {navItems.map((item) =>
                                 item.children ? (
                                     <div key={item.name}>
                                         <button
-                                            onClick={handlePCToggle}
+                                            onClick={() => handleDropdownToggle(item.name)}
                                             className="w-full text-left text-sm py-2 px-4 rounded-md text-purple-200/50 hover:bg-purple-500/10 transition-colors flex items-center justify-between"
                                         >
                                             {item.name}
-                                            <ChevronDown size={14} className={`transform transition-transform ${isPCOpen ? 'rotate-180' : ''}`} />
+                                            <ChevronDown
+                                                size={14}
+                                                className={`transform transition-transform ${openDropdown === item.name ? "rotate-180" : ""}`}
+                                            />
                                         </button>
                                         <AnimatePresence>
-                                            {isPCOpen && (
+                                            {openDropdown === item.name && (
                                                 <motion.div
                                                     initial={{ opacity: 0, height: 0 }}
-                                                    animate={{ opacity: 1, height: 'auto' }}
+                                                    animate={{ opacity: 1, height: "auto" }}
                                                     exit={{ opacity: 0, height: 0 }}
                                                     transition={{ duration: 0.2 }}
-                                                    className="pl-4"
+                                                    className="pl-4 relative z-50"
                                                 >
                                                     {item.children.map((subItem) => (
                                                         <Link
                                                             key={subItem.name}
                                                             href={subItem.path}
                                                             className={`block py-2 px-4 text-sm rounded-md ${
-                                                                pathname === subItem.path ? 'bg-purple-500/20 text-purple-200' : 'text-purple-200/50 hover:bg-purple-500/10 hover:text-purple-200'
+                                                                pathname === subItem.path
+                                                                    ? "bg-purple-500/20 text-purple-200"
+                                                                    : "text-purple-200/50 hover:bg-purple-500/10 hover:text-purple-200"
                                                             } transition-colors`}
                                                             onClick={() => setIsOpen(false)}
                                                         >
@@ -159,15 +167,15 @@ export function Navigation() {
                                         href={item.path}
                                         className={`text-sm py-2 px-4 rounded-md ${
                                             pathname === item.path
-                                                ? 'bg-purple-500/20 text-purple-200'
-                                                : 'text-purple-200/50 hover:bg-purple-500/10 hover:text-purple-200'
+                                                ? "bg-purple-500/20 text-purple-200"
+                                                : "text-purple-200/50 hover:bg-purple-500/10 hover:text-purple-200"
                                         } transition-colors`}
                                         onClick={() => setIsOpen(false)}
                                     >
                                         {item.name}
                                     </Link>
-                                )
-                            ))}
+                                ),
+                            )}
                         </div>
                     </motion.div>
                 )}
