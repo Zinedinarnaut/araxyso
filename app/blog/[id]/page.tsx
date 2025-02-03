@@ -130,7 +130,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                                         className="rounded-lg"
                                     />
                                     <p className="text-sm text-purple-200/60 mt-2 text-center">
-                                        Figure {imgIndex + 1}: Image description goes here
+                                        Figure {imgIndex + 1}
                                     </p>
                                 </div>
                             ))}
@@ -149,7 +149,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
                         <AuthorBio
                             name={post.author}
-                            bio="Cybersecurity expert and tech enthusiast. Passionate about exploring the intersection of AI, quantum computing, and digital security."
+                            bio="Software Engineer and tech enthusiast."
                             avatar="/images/author-avatar.jpg"
                             className="mb-12"
                         />
