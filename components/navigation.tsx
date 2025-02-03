@@ -10,16 +10,22 @@ const navItems = [
     { name: 'home', path: '/' },
     { name: 'projects', path: '/projects' },
     { name: 'companies', path: '/companies' },
-    { name: 'cheats', path: '/cheats' },
+    {
+        name: 'Journey',
+        children: [
+            { name: 'Blog', path: '/blog' },
+        ],
+    },
     {
         name: 'pc',
         children: [
-            { name: 'lab', path: '/lab' },
-            { name: 'games', path: '/games' },
-            { name: 'server status', path: '/server-status' },
+            { name: 'Lab', path: '/lab' },
+            { name: 'Games', path: '/games' },
+            { name: 'Server status', path: '/server-status' },
+            { name: 'Cheats', path: '/cheats' },
         ],
     },
-    { name: 'progress', path: '/progress' },
+    { name: 'Progress', path: '/progress' },
 ]
 
 export function Navigation() {

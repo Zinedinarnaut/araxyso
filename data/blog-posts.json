@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "title": "Apple Foundation Course – Design & Coding Experience",
+    "excerpt": "The Apple Foundation Course was a three-week program where my team designed and built an iOS app using SwiftUI in Xcode, collaborating through research, design, and development. \uD83D\uDE80",
+    "content": "The Apple Foundation Course was an intensive three-week program focused on design and coding, where my team and I collaborated to develop a fully functional iOS application using SwiftUI in Xcode.\n\nTeam & Roles\nI worked in a team of four, with a dynamic and flexible structure:\n\n2/3 researchers who gathered insights, defined user needs, and shaped the problem space.\n1 programmer (me) responsible for implementing the app in SwiftUI/Xcode and ensuring its functionality.\n4 designers, including myself, focused on UI/UX design, prototyping, and refining the app’s look and feel.\nCourse Phases\nWeek 1: Design & Research\n\nUsed Miro for brainstorming, wireframing, and planning the user experience.\nConducted research and ideation to define the app’s core functionality.\nDeveloped high-fidelity UI/UX prototypes.\nWeek 2: Coding & Development\n\nTransitioned from design to development, implementing the app using SwiftUI in Xcode.\nFocused on UI implementation, app logic, and debugging.\nIterated based on feedback to refine the user experience.\nWeek 3: Finalization & Presentation\n\nPolished the app by optimizing UI, fixing bugs, and preparing for launch.\nPrepared a presentation showcasing our design process, technical implementation, and final product.\nGraduated from the program with a final pitch and demonstration of our application.\nKey Takeaways\nGained hands-on experience in collaborative app development, from ideation to final implementation.\nStrengthened skills in SwiftUI, Xcode, and UI/UX design principles.\nLearned the importance of team dynamics and cross-functional collaboration in app development.",
+    "author": "Araxyso",
+    "date": "2024-01-15",
+    "tags": ["UTS", "Swift", "Apple Foundation"],
+    "headerImage": "https://media.licdn.com/dms/image/v2/D563DAQHvEIJrAZhoBw/image-scale_191_1128/image-scale_191_1128/0/1678679571061/apple_foundation_program_uts_cover?e=1739131200&v=beta&t=QhXtPmvuXzBgEXCz7VkIiXS9qxMJqpyrHJ3iLxk2na0",
+    "contentImages": ["https://cdn.discordapp.com/attachments/1232250163444187210/1335702298336170046/image0.jpg?ex=67a12134&is=679fcfb4&hm=2726c306d2edc611ebe4ab8e603aa258a60479988a2e4fdca9fae128e7b4960f&", "https://cdn.discordapp.com/attachments/1232250163444187210/1335702954023325727/image0.jpg?ex=67a121d0&is=679fd050&hm=053fa911fd7afa1dc4086c607fb74db176bea8122bcdeff3616aa7aa1816ebd6&"]
+  }
+]
+

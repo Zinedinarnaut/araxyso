@@ -7,6 +7,18 @@ const nextConfig: NextConfig = {
                 protocol: 'https',
                 hostname: 'i.scdn.co',
             },
+            {
+                protocol: 'https',
+                hostname: 'media.licdn.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'cdn.discordapp.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'cdn.discordapp.com',
+            },
         ],
     },
 };
