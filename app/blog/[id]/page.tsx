@@ -51,7 +51,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
     return (
         <div className="min-h-screen text-purple-200">
-            <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-0 py-12">
+            <div className="max-w-screen-xl  px-4 sm:px-6 lg:px-0 py-12">
                 {/* Banner image */}
                 <div className="mb-12 rounded-lg overflow-hidden">
                     <div className="relative h-64 md:h-96">
