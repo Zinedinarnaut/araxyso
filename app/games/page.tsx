@@ -72,10 +72,10 @@ const games = [
         id: 5,
         title: "Ghostwire: Tokyo",
         image: "/tokyo.avif",
-        playtime: 443,
+        playtime: 540,
         achievements: 66,
         totalAchievements: 66,
-        lastPlayed: "2025-01-08",
+        lastPlayed: "2025-02-04",
         tags: ["Action", "Action-Adventure", "Adventure"],
         description: "Tokyo's population has vanished and deadly supernatural forces prowl the streets. Hone your otherwordly abilities to unravel the truth behind the disappearance and save the city.",
         platform: "PC"
@@ -129,6 +129,19 @@ const games = [
         lastPlayed: "2025-01-19",
         tags: ["Survival", "Online Co-Op", "PvE", "Multiplayer", "Co-Op", "Open World"],
         description: "Sent to find a missing billionaire on a remote island, you find yourself in a cannibal-infested hellscape. Craft, build, and struggle to survive, alone or with friends, in this terrifying new open-world survival horror simulator.",
+        platform: "PC"
+    },
+    {
+        id: 10,
+        title: "Valorant",
+        image: "/V_Logotype_Red.png",
+        video: "/movie480_vp9.webm",
+        playtime: 1531,
+        achievements: 0,
+        totalAchievements: 0,
+        lastPlayed: "2025-02-04",
+        tags: ["Multiplayer", "First Person Shooter"],
+        description: "Blend your style and experience on a global, competitive stage. You have 13 rounds to attack and defend your side using sharp gunplay and tactical abilities. And, with one life per-round, you'll need to think faster than your opponent if you want to survive. Take on foes across Competitive and Unranked modes as well as Deathmatch and Spike Rush.",
         platform: "PC"
     }
 ]
