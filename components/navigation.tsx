@@ -9,10 +9,9 @@ import { Menu, X, ChevronDown } from "lucide-react"
 const navItems = [
     { name: "Home", path: "/" },
     { name: "Projects", path: "/projects" },
-    { name: "Companies", path: "/companies" },
     {
         name: "Journey",
-        children: [{ name: "Blog", path: "/blog" }],
+        children: [{ name: "Blog", path: "/blog" }, { name: "Companies", path: "/companies" }],
     },
     {
         name: "Pc",

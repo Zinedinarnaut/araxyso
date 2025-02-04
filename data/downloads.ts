@@ -6,7 +6,7 @@ export const cheatDownloads: CheatDownload[] = [
         version: '1.0.0',
         fileName: 'Nanite.zip',
         fileSize: '11.3MB',
-        downloadUrl: 'https://cdn.discordapp.com/attachments/1254318692695543859/1326017753596825641/Debug.zip?ex=678088c4&is=677f3744&hm=25c7bf073825df6017646617bd2d9ef2216f99d276aa870587e152fc807c56ef&',
+        downloadUrl: 'https://cdn.discordapp.com/attachments/1254318692695543859/1326017753596825641/Debug.zip?ex=67a2cfc4&is=67a17e44&hm=f62879da1355f580482f27e70505d673e22735fea6f506451c11697aa99a5f25&',
         checksum: 'sha256-a538befe177fdd5e720409387563c52b4c96b2cbd4ac8d96c332b4fe82468423',
         releaseDate: '2025-01-07'
     },
@@ -15,7 +15,7 @@ export const cheatDownloads: CheatDownload[] = [
         version: '1.3.0',
         fileName: 'Nanite.dll',
         fileSize: '0.477MB',
-        downloadUrl: 'https://cdn.discordapp.com/attachments/1254318692695543859/1326018438002380822/Nanite.dll?ex=67808967&is=677f37e7&hm=d7465d2313c21dd70b262cbe7bfe2183bcd14315da91d7edbc66a8f01796b6b6&',
+        downloadUrl: 'https://cdn.discordapp.com/attachments/1254318692695543859/1326018438002380822/Nanite.dll?ex=67a2d067&is=67a17ee7&hm=88861ff4e20e58d7f5329ef97566edb32829c22541dd6217f965fe13facae892&',
         checksum: 'sha256-1801de7c402002c12dc4e89c055efca2ab3e58c72f96fd9b1a3c264312a71b86',
         releaseDate: '2025-01-09'
     },
@@ -24,7 +24,7 @@ export const cheatDownloads: CheatDownload[] = [
         version: '1.1.0',
         fileName: 'cs2-external-esp.exe',
         fileSize: '0.474MB',
-        downloadUrl: 'https://cdn.discordapp.com/attachments/1254318692695543859/1326776779041669194/cs2-external-esp.exe?ex=6780a8aa&is=677f572a&hm=462f87fc11c55a49d2fd065340d35ce455498b1760b7461cec75ed7b63db4858&',
+        downloadUrl: 'https://cdn.discordapp.com/attachments/1254318692695543859/1326776779041669194/cs2-external-esp.exe?ex=67a2efaa&is=67a19e2a&hm=cc3010ab9ab12704a7647fdb689d448e514d91e52de1b2f3b3be42f641575b21&',
         checksum: 'sha256-bc85fe78e29bc0800f7402f8d62a81bc7ff04d57540b4ad905096daec0a60c2e',
         releaseDate: '2025-01-09'
     },
@@ -33,7 +33,7 @@ export const cheatDownloads: CheatDownload[] = [
         version: '2.1.2',
         fileName: 'Release.zip',
         fileSize: '2.822MB',
-        downloadUrl: 'https://cdn.discordapp.com/attachments/1254318692695543859/1327226984136314952/Release.zip?ex=67824bf3&is=6780fa73&hm=41d10c7c9db9dc398f99182766ab2aaf43df3ed4d10ef33e942e609fb269d318&',
+        downloadUrl: 'https://cdn.discordapp.com/attachments/1254318692695543859/1327226984136314952/Release.zip?ex=67a34173&is=67a1eff3&hm=c2a1793d44b405b643aa92a12d65b24290a00b18b55f8c69e2497af6c3e619cc&',
         checksum: 'sha256-bc85fe78e29bc0800f7402f8d62a81bc7ff04d57540b4ad905096daec0a60c2e',
         releaseDate: '2025-01-10'
     },
