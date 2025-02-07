@@ -11,7 +11,7 @@ const navItems = [
     { name: "Projects", path: "/projects" },
     {
         name: "Journey",
-        children: [{ name: "Blog", path: "/blog" }, { name: "Companies", path: "/companies" }],
+        children: [{ name: "Blog", path: "/blog" }, { name: "Companies", path: "/companies" }, { name: "Changelogs", path: "/changelogs" }],
     },
     {
         name: "Pc",
