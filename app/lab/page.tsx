@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ChevronLeft, Cpu, MemoryStickIcon as Memory, HardDrive, CpuIcon as Gpu, Monitor, Laptop, Headphones, Mic, Mouse, Keyboard, Gamepad, Rocket } from 'lucide-react'
+import { ChevronLeft, Cpu, MemoryStickIcon as Memory, HardDrive, CpuIcon as Gpu, Monitor, Laptop, Headphones, Mic, Mouse, Keyboard, Gamepad, Rocket, Server } from 'lucide-react'
 import Link from 'next/link'
 
 // Mock data for computer specs
@@ -40,6 +40,16 @@ const specs = {
         micArm: "FIFINE Microphone Arm",
         popFilter: "FIFINE Pop Filter (Included)"
     },
+    homeServer: {
+        cpu: "AMD Ryzen 9 5950X 16-Core 4.9GHz",
+        ram: "Corsair Vengeance LPX 128GB (4x32GB) DDR4 3200MHz CL16",
+        storage: "Samsung SSD 870 Evo 1TB SATA 2.5\"",
+        motherboard: "ASUS TUF Gaming X570-PLUS ATX (PCIe 4.0)",
+        cooling: "NZXT Kraken Liquid Cooler",
+        psu: "Corsair RM750x SHIFT 750W 80+ Gold Modular",
+        network: "ASUS V2 10Gbps Base-T PCIe Network Adapter",
+        case: "6 GPU Mining Rig Open Air Steel Frame"
+    },
     futurePC: {
         cpu: "AMD Ryzen 7 7800X3D",
         gpu: "Nvidia GeForce RTX 5070",
@@ -51,7 +61,7 @@ const specs = {
         psu: "NZXT C850 850W 80+ Gold Modular",
         case: "NZXT H9 Elite Case",
         fans: "NZXT F Series RGB Duo 120mm Fans (Pack of 3)"
-    }
+    },
 }
 
 export default function LabPage() {
@@ -69,12 +79,13 @@ export default function LabPage() {
             </h1>
 
             <Tabs defaultValue="desktop" className="space-y-8">
-                <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 bg-black/50 border border-purple-900/20">
+                <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 bg-black/50 border border-purple-900/20">
                     <TabsTrigger value="desktop">Desktop</TabsTrigger>
                     <TabsTrigger value="laptop">Laptop</TabsTrigger>
                     <TabsTrigger value="accessories">Accessories</TabsTrigger>
                     <TabsTrigger value="mic">Mic Setup</TabsTrigger>
                     <TabsTrigger value="future">Future Build</TabsTrigger>
+                    <TabsTrigger value="homeServer">Home Server</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="desktop" className="space-y-8">
@@ -291,6 +302,64 @@ export default function LabPage() {
                             <div>
                                 <h3 className="font-medium text-purple-200">Case</h3>
                                 <p className="text-purple-200/70">{specs.futurePC.fans}</p>
+                            </div>
+                        </div>
+                    </Card>
+                </TabsContent>
+
+                <TabsContent value="homeServer" className="space-y-8">
+                    <div className="grid gap-6 md:grid-cols-2">
+                        <Card className="p-6 bg-black/50 border border-purple-900/20">
+                            <h2 className="text-xl font-semibold text-purple-200 mb-4 flex items-center gap-2">
+                                <Cpu className="h-5 w-5 text-purple-400" />
+                                Processor
+                            </h2>
+                            <p className="text-purple-200/70">{specs.homeServer.cpu}</p>
+                        </Card>
+
+                        <Card className="p-6 bg-black/50 border border-purple-900/20">
+                            <h2 className="text-xl font-semibold text-purple-200 mb-4 flex items-center gap-2">
+                                <Memory className="h-5 w-5 text-purple-400" />
+                                Memory
+                            </h2>
+                            <p className="text-purple-200/70">{specs.homeServer.ram}</p>
+                        </Card>
+
+                        <Card className="p-6 bg-black/50 border border-purple-900/20">
+                            <h2 className="text-xl font-semibold text-purple-200 mb-4 flex items-center gap-2">
+                                <HardDrive className="h-5 w-5 text-purple-400" />
+                                Storage
+                            </h2>
+                            <p className="text-purple-200/70">{specs.homeServer.storage}</p>
+                        </Card>
+
+                        <Card className="p-6 bg-black/50 border border-purple-900/20">
+                            <h2 className="text-xl font-semibold text-purple-200 mb-4 flex items-center gap-2">
+                                <Server className="h-5 w-5 text-purple-400" />
+                                Networking
+                            </h2>
+                            <p className="text-purple-200/70">{specs.homeServer.network}</p>
+                        </Card>
+                    </div>
+
+                    <Card className="p-6 bg-black/50 border border-purple-900/20">
+                        <h2 className="text-xl font-semibold text-purple-200 mb-4">Additional Components</h2>
+                        <div className="grid gap-4 md:grid-cols-2">
+                            <div>
+                                <h3 className="font-medium text-purple-200">Motherboard</h3>
+                                <p className="text-purple-200/70">{specs.homeServer.motherboard}</p>
+                            </div>
+                            <div>
+                                <h3 className="font-medium text-purple-200">Cooling</h3>
+                                <p className="text-purple-200/70">{specs.homeServer.cooling}</p>
+                            </div>
+                            <div>
+                                <h3 className="font-medium text-purple-200">Power Supply</h3>
+                                <p className="text-purple-200/70">{specs.homeServer.psu}</p>
+                            </div>
+                            <div>
+                                <h3 className="font-medium text-purple-200">Case</h3>
+                                <p className="text-purple-200/70">{specs.homeServer.case}</p>
                             </div>
                         </div>
                     </Card>
