@@ -19,9 +19,7 @@ const SERVICES = [
     {
         category: 'Services',
         services: [
-            { name: 'CDN (Coming Soon)', url: 'https://v4sq52.easypanel.host' },
-            { name: 'Image Proxy', url: 'https://v4sq52.easypanel.host' },
-            { name: 'N:ZA', url: 'https://v4sq52.easypanel.host' },
+            { name: 'N:ZA', url: 'https://nanite-n-zd.v4sq52.easypanel.host' },
         ]
     }
 ]
