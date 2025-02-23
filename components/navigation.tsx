@@ -11,7 +11,7 @@ const navItems = [
     { name: "Projects", path: "/projects" },
     {
         name: "Journey",
-        children: [{ name: "Blog", path: "/blog" }, { name: "Companies", path: "/companies" }, { name: "Changelogs", path: "/changelogs" }],
+        children: [{ name: "Blog", path: "/blog" }, { name: "Companies", path: "/companies" }, { name: "Changelogs", path: "/changelogs" },{ name: "Progress", path: "/progress" }],
     },
     {
         name: "Pc",
@@ -22,7 +22,7 @@ const navItems = [
             { name: "Cheats", path: "/cheats" },
         ],
     },
-    { name: "Progress", path: "/progress" },
+    { name: "Anime&Manga", path: "/anime" },
 ]
 
 export function Navigation() {
