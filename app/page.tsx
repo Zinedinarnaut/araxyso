@@ -37,10 +37,10 @@ export default function Home() {
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
               <Image
-                  src="/izumo-tenka-tenka-izumo.gif"
+                  src="/yoru.jpg"
                   alt="Profile"
                   width={80}
-                  height={80}
+                  height={1}
                   className="relative rounded-lg border border-purple-500/20 bg-black"
               />
             </div>
