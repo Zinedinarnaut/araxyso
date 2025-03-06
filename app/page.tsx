@@ -37,7 +37,7 @@ export default function Home() {
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
               <Image
-                  src="/yoru.jpg"
+                  src="https://cdn.discordapp.com/attachments/1232250163444187210/1347320077699125279/IMG_4308.JPG?ex=67cb651a&is=67ca139a&hm=5fe189783926232e479914e43f7fcd1c9abb52a555640445474e209473780723&"
                   alt="Profile"
                   width={80}
                   height={1}
