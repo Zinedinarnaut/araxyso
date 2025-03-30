@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'cdn.discordapp.com',
+                hostname: 'media1.tenor.com',
             },
             {
                 protocol: 'https',

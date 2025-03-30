@@ -23,6 +23,7 @@ const navItems = [
         ],
     },
     { name: "Anime&Manga", path: "/anime" },
+    //{ name: "Garage", path: "/garage" },
 ]
 
 export function Navigation() {
