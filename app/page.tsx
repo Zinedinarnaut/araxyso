@@ -37,7 +37,7 @@ export default function Home() {
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
               <Image
-                  src="https://cdn.discordapp.com/attachments/1232250163444187210/1355909571042087002/a_6d6f232255fd087d45f371081c929664.gif?ex=67eaa4b1&is=67e95331&hm=c818be8589f85a0cc9817148f73e6a349c6e826433c8497b8168060a1d8c1092&"
+                  src="/araxyso.png"
                   alt="Profile"
                   width={80}
                   height={1}
