@@ -16,7 +16,7 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" className="dark">
+        <html lang="en" className="dark" suppressContentEditableWarning={true} suppressHydrationWarning={true}>
         <body className={cn(GeistMono.className, "min-h-screen bg-[#0a0a0b] text-white antialiased overflow-x-hidden")}>
         <ClientLayout>
             <div className="fixed inset-0 bg-[url('/grid.png')] bg-center opacity-20 [mask-image:linear-gradient(180deg,rgba(0,0,0,0.7)_10%,rgba(0,0,0,0.3)_100%)]" />
