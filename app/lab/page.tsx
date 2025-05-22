@@ -7,16 +7,16 @@ import Link from 'next/link'
 // Mock data for computer specs
 const specs = {
     desktop: {
-        cpu: "AMD Ryzen 5 2600 Six-Core Processor",
-        gpu: "NVIDIA GeForce RTX 3050",
-        ram: "Corsair Vengeance RGB Pro 32GB (4x8GB) DDR4 4266MHz",
-        storage: "500GB NVMe SSD + 960GB SATA SSD",
-        motherboard: "ASUS ROG Crosshair VIII Dark Hero",
-        cooling: "Corsair Air Cooler",
-        psu: "Gigabyte P750GM 750W Modular PSU",
-        case: "Thermaltake",
+        cpu: "AMD Ryzen 7 7800X3D",
+        gpu: "Gigabyte AORUS RTX 5080 Xtreme Waterforce 16GB GDDR7",
+        ram: "Corsair Vengeance RGB 64GB (2×32GB) DDR5-6000 CL30",
+        storage: "Samsung 990 PRO 2TB NVMe Gen4 SSD",
+        motherboard: "ASUS TUF Gaming X670E-Plus WiFi (AM5)",
+        cooling: "DeepCool LS720S Zero Dark 360mm AIO",
+        psu: "Corsair RM850x SHIFT 850W Gold Modular",
+        case: "Lian Li O11 Dynamic EVO (Black)",
         monitors: [
-            "LG UltraWide 24\" 60Hz",
+            "MSI MEG 342C UWQHD 175Hz OLED Curved 34in Monitor",
             "Samsung Odyssey Curved G5 34\" Ultrawide QHD 165Hz FreeSync HDR10 (21:9)"
         ]
     },
@@ -50,18 +50,6 @@ const specs = {
         network: "ASUS V2 10Gbps Base-T PCIe Network Adapter",
         case: "6 GPU Mining Rig Open Air Steel Frame"
     },
-    futurePC: {
-        cpu: "AMD Ryzen 7 7800X3D",
-        gpu: "Nvidia GeForce RTX 5070",
-        ram: "Corsair Dominator Platinum DDR5 32GB (2x16GB) 6000MHz RAM",
-        storage: "Samsung 980 Pro 1TB NVMe SSD",
-        storage2: "Crucial P3 Plus 2TB NVMe SSD",
-        motherboard: "NZXT N7 B650E Motherboard",
-        cooling: "NZXT Kraken Elite 360 RGB AIO Cooler",
-        psu: "NZXT C850 850W 80+ Gold Modular",
-        case: "NZXT H9 Elite Case",
-        fans: "NZXT F Series RGB Duo 120mm Fans (Pack of 3)"
-    },
 }
 
 export default function LabPage() {
@@ -84,7 +72,6 @@ export default function LabPage() {
                     <TabsTrigger value="laptop">Laptop</TabsTrigger>
                     <TabsTrigger value="accessories">Accessories</TabsTrigger>
                     <TabsTrigger value="mic">Mic Setup</TabsTrigger>
-                    <TabsTrigger value="future">Future Build</TabsTrigger>
                     <TabsTrigger value="homeServer">Home Server</TabsTrigger>
                 </TabsList>
 
@@ -251,57 +238,6 @@ export default function LabPage() {
                             <div>
                                 <h3 className="font-medium text-purple-200">Pop Filter</h3>
                                 <p className="text-purple-200/70">{specs.micSetup.popFilter}</p>
-                            </div>
-                        </div>
-                    </Card>
-                </TabsContent>
-
-                <TabsContent value="future" className="space-y-8">
-                    <Card className="p-6 bg-black/50 border border-purple-900/20">
-                        <h2 className="text-xl font-semibold text-purple-200 mb-4 flex items-center gap-2">
-                            <Rocket className="h-5 w-5 text-purple-400" />
-                            Future Gaming PC
-                        </h2>
-                        <div className="grid gap-4 md:grid-cols-2">
-                            <div>
-                                <h3 className="font-medium text-purple-200">Processor</h3>
-                                <p className="text-purple-200/70">{specs.futurePC.cpu}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium text-purple-200">Graphics</h3>
-                                <p className="text-purple-200/70">{specs.futurePC.gpu}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium text-purple-200">Memory</h3>
-                                <p className="text-purple-200/70">{specs.futurePC.ram}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium text-purple-200">Storage</h3>
-                                <p className="text-purple-200/70">{specs.futurePC.storage}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium text-purple-200">Second Storage</h3>
-                                <p className="text-purple-200/70">{specs.futurePC.storage2}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium text-purple-200">Motherboard</h3>
-                                <p className="text-purple-200/70">{specs.futurePC.motherboard}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium text-purple-200">Cooling</h3>
-                                <p className="text-purple-200/70">{specs.futurePC.cooling}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium text-purple-200">Power Supply</h3>
-                                <p className="text-purple-200/70">{specs.futurePC.psu}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium text-purple-200">Case</h3>
-                                <p className="text-purple-200/70">{specs.futurePC.case}</p>
-                            </div>
-                            <div>
-                                <h3 className="font-medium text-purple-200">Case</h3>
-                                <p className="text-purple-200/70">{specs.futurePC.fans}</p>
                             </div>
                         </div>
                     </Card>
