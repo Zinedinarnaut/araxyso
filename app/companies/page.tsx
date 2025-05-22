@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState} from "react"
+import {motion} from "framer-motion"
+import {Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter} from "@/components/ui/card"
+import {Badge} from "@/components/ui/badge"
+import {Button} from "@/components/ui/button"
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {
     ChevronLeft,
     Cpu,
@@ -23,7 +23,6 @@ import {
     Star,
     Award,
     Zap,
-    Code2,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -36,90 +35,35 @@ const companies = [
         details:
             "Nanite is at the forefront of nano-scale engineering, developing cutting-edge technologies that push the boundaries of what's possible at the molecular level.",
         icon: Cpu,
-        founded: "2022",
-        location: "Silicon Valley, CA",
+        founded: "2024 - 2025",
+        location: "Sydney, AU",
         website: "https://nanite.tech",
-        employees: "10-50",
-        tags: ["Nanotechnology", "R&D", "Biotech"],
-        achievements: [
-            "Secured $2.5M seed funding",
-            "Developed proprietary nano-fabrication process",
-            "Filed 3 patents for molecular assembly techniques",
-        ],
-        projects: [
-            {
-                name: "NanoFab-X",
-                description: "Revolutionary nano-fabrication platform for medical applications",
-            },
-            {
-                name: "Quantum Dot Arrays",
-                description: "Scalable quantum computing architecture using nano-assembled components",
-            },
-        ],
+        employees: "5+",
+        tags: ["Construction", "R&D", "Technology"],
         featured: true,
         color: "from-purple-500 to-blue-600",
     },
     {
         id: 2,
-        name: "NanoD",
+        name: "HydroGlass",
         logo: "/placeholder.svg?height=80&width=80",
         description: "Revolutionizing digital experiences",
         details:
-            "NanoD focuses on creating immersive digital experiences by leveraging nano-technology. We're bridging the gap between the physical and digital worlds in unprecedented ways.",
+            "HydroGlass focuses on creating immersive drink bottles.",
         icon: VrHeadset,
-        founded: "2023",
-        location: "Austin, TX",
-        website: "https://nanod.io",
+        founded: "2025",
+        location: "Sydney, AU",
+        website: "https://hydroglass.com",
         employees: "5-20",
-        tags: ["VR/AR", "Digital Experiences", "Nanotech Integration"],
-        achievements: [
-            "Launched beta platform with 10,000+ users",
-            "Featured in TechCrunch's 'Startups to Watch'",
-            "Strategic partnership with major VR hardware manufacturer",
-        ],
+        tags: ["Bottle", "Hydro", "Hydro Technology"],
         projects: [
             {
-                name: "NanoVerse",
-                description: "Immersive virtual reality platform with nano-scale rendering",
-            },
-            {
-                name: "HapticTouch",
-                description: "Tactile feedback system using programmable nanomaterials",
+                name: "Bottles",
+                description: "Tackling down on plastic bottles and revoluting the bottle industry",
             },
         ],
         featured: true,
         color: "from-pink-500 to-orange-600",
-    },
-    {
-        id: 3,
-        name: "QuantumByte",
-        logo: "/placeholder.svg?height=80&width=80",
-        description: "Quantum computing solutions",
-        details:
-            "QuantumByte is developing practical quantum computing solutions for enterprise applications, focusing on cryptography, optimization problems, and machine learning acceleration.",
-        icon: Code2,
-        founded: "2024",
-        location: "Boston, MA",
-        website: "https://quantumbyte.dev",
-        employees: "5-15",
-        tags: ["Quantum Computing", "Enterprise Solutions", "Cryptography"],
-        achievements: [
-            "Developed 32-qubit quantum simulator",
-            "Published research in Nature Quantum Information",
-            "Partnered with leading financial institutions for quantum security",
-        ],
-        projects: [
-            {
-                name: "QuantumSec",
-                description: "Post-quantum cryptography implementation for enterprise systems",
-            },
-            {
-                name: "Q-Optimizer",
-                description: "Quantum-accelerated optimization engine for logistics and supply chain",
-            },
-        ],
-        featured: false,
-        color: "from-cyan-500 to-blue-600",
     },
 ]
 
@@ -133,34 +77,14 @@ const workExperience = [
             "At Proclad Construction, I'm responsible for creating cutting-edge software tools that streamline construction processes, improve project management, and enhance overall efficiency in the field.",
         icon: HardHat,
         period: "2021 - Present",
-        location: "New York, NY",
+        location: "Sydney, AU",
         tags: ["Construction Tech", "Project Management", "IoT Integration"],
         achievements: [
             "Developed real-time project tracking system that reduced reporting time by 65%",
             "Implemented IoT solution for equipment monitoring, saving $120K in maintenance costs",
-            "Led team of 4 developers to create mobile app used by 500+ field workers",
         ],
         technologies: ["React", "Node.js", "MongoDB", "AWS", "IoT", "React Native"],
         featured: true,
-    },
-    {
-        id: 2,
-        name: "TechFusion Labs",
-        role: "Junior Developer",
-        description: "Full-stack development for enterprise applications",
-        details:
-            "Worked on developing and maintaining enterprise-level applications, focusing on backend services and database optimization. Collaborated with cross-functional teams to implement new features and resolve critical bugs.",
-        icon: Briefcase,
-        period: "2020 - 2021",
-        location: "Remote",
-        tags: ["Enterprise Software", "Backend Development", "Database Optimization"],
-        achievements: [
-            "Optimized database queries resulting in 40% performance improvement",
-            "Contributed to microservices architecture migration",
-            "Implemented automated testing framework that increased code coverage by 35%",
-        ],
-        technologies: ["Java", "Spring Boot", "PostgreSQL", "Docker", "Kubernetes", "CI/CD"],
-        featured: false,
     },
 ]
 
@@ -174,22 +98,22 @@ export default function CompaniesPage() {
     return (
         <div className="py-12">
             <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
+                initial={{opacity: 0, y: -20}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.5}}
                 className="mb-8 flex items-center gap-2"
             >
                 <Link href="/" className="text-purple-400 hover:text-purple-300 transition-colors">
-                    <ChevronLeft className="h-4 w-4" />
+                    <ChevronLeft className="h-4 w-4"/>
                 </Link>
                 <span className="text-purple-200/50">back to home</span>
             </motion.div>
 
             <motion.h1
                 className="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                initial={{opacity: 0, y: -20}}
+                animate={{opacity: 1, y: 0}}
+                transition={{duration: 0.5, delay: 0.2}}
             >
                 Companies & Work Experience
             </motion.h1>
@@ -197,11 +121,11 @@ export default function CompaniesPage() {
             <Tabs defaultValue="companies" className="space-y-8">
                 <TabsList className="grid w-full grid-cols-2 bg-black/50 border border-purple-900/20">
                     <TabsTrigger value="companies" className="data-[state=active]:bg-purple-900/30">
-                        <Building2 className="h-4 w-4 mr-2" />
+                        <Building2 className="h-4 w-4 mr-2"/>
                         My Companies
                     </TabsTrigger>
                     <TabsTrigger value="experience" className="data-[state=active]:bg-purple-900/30">
-                        <Briefcase className="h-4 w-4 mr-2" />
+                        <Briefcase className="h-4 w-4 mr-2"/>
                         Work Experience
                     </TabsTrigger>
                 </TabsList>
@@ -209,12 +133,12 @@ export default function CompaniesPage() {
                 <TabsContent value="companies" className="space-y-8">
                     {featuredCompanies.length > 0 && (
                         <motion.section
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.4 }}
+                            initial={{opacity: 0, y: 20}}
+                            animate={{opacity: 1, y: 0}}
+                            transition={{duration: 0.5, delay: 0.4}}
                         >
                             <div className="flex items-center gap-2 mb-4">
-                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400"/>
                                 <h2 className="text-2xl font-semibold text-purple-200">Featured Companies</h2>
                             </div>
 
@@ -222,28 +146,34 @@ export default function CompaniesPage() {
                                 {featuredCompanies.map((company, index) => (
                                     <motion.div
                                         key={company.id}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.5, delay: 0.1 * index }}
+                                        initial={{opacity: 0, y: 20}}
+                                        animate={{opacity: 1, y: 0}}
+                                        transition={{duration: 0.5, delay: 0.1 * index}}
                                         onHoverStart={() => setHoveredCompany(company.name)}
                                         onHoverEnd={() => setHoveredCompany(null)}
                                         onClick={() => setSelectedCompany(selectedCompany === company.id ? null : company.id)}
                                         className="cursor-pointer"
                                     >
-                                        <Card className="bg-black/50 border border-purple-900/20 backdrop-blur-sm overflow-hidden h-full">
-                                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${company.color}"></div>
+                                        <Card
+                                            className="bg-black/50 border border-purple-900/20 backdrop-blur-sm overflow-hidden h-full">
+                                            <div
+                                                className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${company.color}"></div>
                                             <CardHeader className="relative">
                                                 <div className="flex items-start justify-between">
                                                     <div className="flex items-center gap-4">
-                                                        <div className="w-16 h-16 rounded-md bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-                                                            <company.icon className="h-8 w-8 text-purple-400" />
+                                                        <div
+                                                            className="w-16 h-16 rounded-md bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                                                            <company.icon className="h-8 w-8 text-purple-400"/>
                                                         </div>
                                                         <div>
-                                                            <CardTitle className="text-purple-200">{company.name}</CardTitle>
-                                                            <CardDescription className="text-purple-200/70">{company.description}</CardDescription>
+                                                            <CardTitle
+                                                                className="text-purple-200">{company.name}</CardTitle>
+                                                            <CardDescription
+                                                                className="text-purple-200/70">{company.description}</CardDescription>
                                                         </div>
                                                     </div>
-                                                    <Badge variant="outline" className="bg-purple-500/20 text-purple-200 border-purple-500/30">
+                                                    <Badge variant="outline"
+                                                           className="bg-purple-500/20 text-purple-200 border-purple-500/30">
                                                         Founded {company.founded}
                                                     </Badge>
                                                 </div>
@@ -263,30 +193,31 @@ export default function CompaniesPage() {
                                                 </div>
                                                 <div className="grid grid-cols-2 gap-4 text-sm text-purple-200/50 mb-4">
                                                     <div className="flex items-center gap-1">
-                                                        <MapPin className="h-4 w-4" />
+                                                        <MapPin className="h-4 w-4"/>
                                                         <span>{company.location}</span>
                                                     </div>
                                                     <div className="flex items-center gap-1">
-                                                        <Users className="h-4 w-4" />
+                                                        <Users className="h-4 w-4"/>
                                                         <span>{company.employees} employees</span>
                                                     </div>
                                                     <div className="flex items-center gap-1">
-                                                        <Globe className="h-4 w-4" />
+                                                        <Globe className="h-4 w-4"/>
                                                         <span>{company.website}</span>
                                                     </div>
                                                 </div>
 
                                                 {selectedCompany === company.id && (
                                                     <motion.div
-                                                        initial={{ opacity: 0, height: 0 }}
-                                                        animate={{ opacity: 1, height: "auto" }}
-                                                        transition={{ duration: 0.3 }}
+                                                        initial={{opacity: 0, height: 0}}
+                                                        animate={{opacity: 1, height: "auto"}}
+                                                        transition={{duration: 0.3}}
                                                         className="mt-4 space-y-4"
                                                     >
                                                         <div>
-                                                            <h4 className="text-sm font-medium text-purple-300 mb-2">Key Achievements</h4>
+                                                            <h4 className="text-sm font-medium text-purple-300 mb-2">Key
+                                                                Achievements</h4>
                                                             <ul className="space-y-2">
-                                                                {company.achievements.map((achievement, i) => (
+                                                                {company.achievements.map((achievement: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, i: Key | null | undefined) => (
                                                                     <li key={i} className="flex items-start gap-2 text-sm text-purple-200/70">
                                                                         <Award className="h-4 w-4 text-purple-400 mt-0.5 shrink-0" />
                                                                         <span>{achievement}</span>
