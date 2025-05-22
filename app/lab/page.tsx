@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ChevronLeft, Cpu, MemoryStickIcon as Memory, HardDrive, CpuIcon as Gpu, Monitor, Laptop, Headphones, Mic, Mouse, Keyboard, Gamepad, Rocket, Server } from 'lucide-react'
+import { ChevronLeft, Cpu, MemoryStickIcon as Memory, HardDrive, CpuIcon as Gpu, Monitor, Laptop, Headphones, Mic, Mouse, Keyboard, Gamepad, Server } from 'lucide-react'
 import Link from 'next/link'
 
 // Mock data for computer specs
