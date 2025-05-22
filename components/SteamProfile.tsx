@@ -68,7 +68,7 @@ export function SteamProfile({ profileUrl = "https://steamcommunity.com/id/zined
             cpu: "AMD Ryzen 7 7800X3D",
             ram: "Corsair Vengeance RGB 64GB (2×32GB) DDR5-6000 CL30",
             storage: "Samsung 990 PRO 2TB NVMe Gen4 SSD",
-            gpu: "Gigabyte AORUS RTX 3080 Xtreme Waterforce 10GB GDDR6",
+            gpu: "Gigabyte AORUS RTX 5080 Xtreme Waterforce 16GB GDDR7",
             motherboard: "ASUS TUF Gaming X670E-Plus WiFi (AM5)",
         },
         itemsOwned: 290,
