@@ -24,8 +24,10 @@ import {
   Server,
   ArrowRight,
   Star,
+  Gamepad2,
 } from "lucide-react"
 import { SpotifyNowPlaying } from "@/components/SpotifyNowPlaying"
+import { SteamProfile } from "@/components/SteamProfile"
 
 const socialLinks = [
   { name: "GitHub", icon: Github, url: "https://github.com/zinedinarnaut" },
@@ -42,7 +44,8 @@ const skills = [
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  useRef<HTMLVideoElement>(null);
+  const featuredVideoRef = useRef<HTMLVideoElement>(null)
+
   useEffect(() => {
     const video = videoRef.current
     if (video) {
@@ -93,7 +96,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
                     <h1 className="text-3xl font-bold text-white mb-1">ARAXYSO</h1>
-                    <p className="text-purple-200/90 text-sm">Age 18 | Life is Roblox</p>
+                    <p className="text-purple-200/90 text-sm">Age 17 | code breaker</p>
                   </div>
                 </div>
               </div>
@@ -230,6 +233,12 @@ export default function Home() {
                       </Badge>
                       <span className="text-purple-200/70">Original Creator & Programmer</span>
                     </div>
+                    <div>
+                      <Badge variant="outline" className="bg-purple-900/20 text-purple-200/80 border-purple-900/30 mr-2">
+                        Reversed Rooms
+                      </Badge>
+                      <span className="text-purple-200/70">Contributor</span>
+                    </div>
                   </div>
                   <p className="mt-2 text-xs">
                     <span className="text-yellow-400">Note:</span> Project will be open-sourced soon at{" "}
@@ -245,6 +254,15 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Steam Profile Section */}
+          <div className="mb-12">
+            <h2 className="text-lg font-medium text-purple-300 mb-3 border-b border-purple-900/30 pb-2 flex items-center">
+              <Gamepad2 className="h-4 w-4 mr-2 text-purple-400" />
+              Steam Profile
+            </h2>
+            <SteamProfile profileUrl="https://steamcommunity.com/id/zinedinarnaut" />
           </div>
 
           {/* Now Playing Section */}
@@ -288,7 +306,7 @@ export default function Home() {
                     </div>
                     <h3 className="font-medium text-purple-200 mb-2">Companies</h3>
                     <p className="text-purple-200/60 text-sm mb-3 flex-grow">
-                      Discover the companies I&#39;ve founded and my work experience.
+                      Discover the companies I've founded and my work experience.
                     </p>
                     <span className="text-purple-400 text-sm group-hover:text-purple-300 flex items-center">
                     View Companies
@@ -298,18 +316,18 @@ export default function Home() {
                 </Card>
               </Link>
 
-              <Link href="/cheats" className="group">
+              <Link href="/games" className="group">
                 <Card className="bg-black/40 border-purple-900/30 hover:border-purple-500/50 transition-all duration-300 h-full">
                   <div className="p-5 flex flex-col h-full">
                     <div className="w-10 h-10 rounded-full bg-purple-900/30 flex items-center justify-center mb-3">
-                      <Terminal className="h-5 w-5 text-purple-400" />
+                      <Gamepad2 className="h-5 w-5 text-purple-400" />
                     </div>
-                    <h3 className="font-medium text-purple-200 mb-2">Hack.Matrix</h3>
+                    <h3 className="font-medium text-purple-200 mb-2">Game Library</h3>
                     <p className="text-purple-200/60 text-sm mb-3 flex-grow">
-                      Browse my collection of custom game modifications and tools.
+                      Browse my collection of games and gaming statistics.
                     </p>
                     <span className="text-purple-400 text-sm group-hover:text-purple-300 flex items-center">
-                    View Cheats
+                    View Games
                     <ExternalLink className="ml-1 h-3 w-3" />
                   </span>
                   </div>
