@@ -1,6 +1,6 @@
 "use client"
 
-import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState} from "react"
+import {useState} from "react"
 import {motion} from "framer-motion"
 import {Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter} from "@/components/ui/card"
 import {Badge} from "@/components/ui/badge"
@@ -213,30 +213,30 @@ export default function CompaniesPage() {
                                                         transition={{duration: 0.3}}
                                                         className="mt-4 space-y-4"
                                                     >
-                                                        <div>
-                                                            <h4 className="text-sm font-medium text-purple-300 mb-2">Key
-                                                                Achievements</h4>
-                                                            <ul className="space-y-2">
-                                                                {company.achievements.map((achievement: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, i: Key | null | undefined) => (
-                                                                    <li key={i} className="flex items-start gap-2 text-sm text-purple-200/70">
-                                                                        <Award className="h-4 w-4 text-purple-400 mt-0.5 shrink-0" />
-                                                                        <span>{achievement}</span>
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        </div>
+                                                        {/*<div>*/}
+                                                        {/*    <h4 className="text-sm font-medium text-purple-300 mb-2">Key*/}
+                                                        {/*        Achievements</h4>*/}
+                                                        {/*    <ul className="space-y-2">*/}
+                                                        {/*        {company?.achievements.map((achievement: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, i: Key | null | undefined) => (*/}
+                                                        {/*            <li key={i} className="flex items-start gap-2 text-sm text-purple-200/70">*/}
+                                                        {/*                <Award className="h-4 w-4 text-purple-400 mt-0.5 shrink-0" />*/}
+                                                        {/*                <span>{achievement}</span>*/}
+                                                        {/*            </li>*/}
+                                                        {/*        ))}*/}
+                                                        {/*    </ul>*/}
+                                                        {/*</div>*/}
 
-                                                        <div>
-                                                            <h4 className="text-sm font-medium text-purple-300 mb-2">Notable Projects</h4>
-                                                            <div className="space-y-2">
-                                                                {company.projects.map((project, i) => (
-                                                                    <div key={i} className="bg-purple-900/10 rounded-md p-3">
-                                                                        <h5 className="font-medium text-purple-200 text-sm">{project.name}</h5>
-                                                                        <p className="text-xs text-purple-200/70 mt-1">{project.description}</p>
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                        </div>
+                                                        {/*<div>*/}
+                                                        {/*    <h4 className="text-sm font-medium text-purple-300 mb-2">Notable Projects</h4>*/}
+                                                        {/*    <div className="space-y-2">*/}
+                                                        {/*        {company?.projects.map((project, i) => (*/}
+                                                        {/*            <div key={i} className="bg-purple-900/10 rounded-md p-3">*/}
+                                                        {/*                <h5 className="font-medium text-purple-200 text-sm">{project.name}</h5>*/}
+                                                        {/*                <p className="text-xs text-purple-200/70 mt-1">{project.description}</p>*/}
+                                                        {/*            </div>*/}
+                                                        {/*        ))}*/}
+                                                        {/*    </div>*/}
+                                                        {/*</div>*/}
                                                     </motion.div>
                                                 )}
                                             </CardContent>
