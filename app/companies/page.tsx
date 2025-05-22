@@ -170,8 +170,7 @@ export default function CompaniesPage() {
     const [selectedJob, setSelectedJob] = useState<number | null>(null)
 
     const featuredCompanies = companies.filter((company) => company.featured)
-    const otherCompanies = companies.filter((company) => !company.featured)
-
+    companies.filter((company) => !company.featured);
     return (
         <div className="py-12">
             <motion.div
@@ -412,7 +411,7 @@ export default function CompaniesPage() {
                             <h3 className="text-xl font-semibold text-purple-200">Start a New Venture</h3>
                         </div>
                         <p className="text-purple-200/70 mb-4">
-                            Have an idea for a new company or project? Let's bring it to life with cutting-edge technology and
+                            Have an idea for a new company or project? Let&#39;s bring it to life with cutting-edge technology and
                             innovative solutions.
                         </p>
                         <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
@@ -548,7 +547,7 @@ export default function CompaniesPage() {
                             <h3 className="text-xl font-semibold text-purple-200">Looking for New Opportunities</h3>
                         </div>
                         <p className="text-purple-200/70 mb-4">
-                            I'm always open to discussing new projects, opportunities, and collaborations in the tech space.
+                            I&#39;m always open to discussing new projects, opportunities, and collaborations in the tech space.
                         </p>
                         <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
                             Contact Me
