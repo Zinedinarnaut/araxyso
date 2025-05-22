@@ -42,8 +42,7 @@ const skills = [
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const featuredVideoRef = useRef<HTMLVideoElement>(null)
-
+  useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const video = videoRef.current
     if (video) {
@@ -289,7 +288,7 @@ export default function Home() {
                     </div>
                     <h3 className="font-medium text-purple-200 mb-2">Companies</h3>
                     <p className="text-purple-200/60 text-sm mb-3 flex-grow">
-                      Discover the companies I've founded and my work experience.
+                      Discover the companies I&#39;ve founded and my work experience.
                     </p>
                     <span className="text-purple-400 text-sm group-hover:text-purple-300 flex items-center">
                     View Companies

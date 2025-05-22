@@ -146,7 +146,7 @@ export default function ProjectsPage() {
                             <Code2 className="h-12 w-12 text-purple-400 mx-auto mb-4" />
                             <h3 className="text-xl font-bold text-purple-200 mb-2">No repositories found</h3>
                             <p className="text-purple-200/50 max-w-md mx-auto">
-                                Repositories will appear here once they're fetched from GitHub. Make sure your GitHub token is
+                                Repositories will appear here once they&#39;re fetched from GitHub. Make sure your GitHub token is
                                 configured correctly.
                             </p>
                         </div>
