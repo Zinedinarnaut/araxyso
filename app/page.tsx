@@ -95,7 +95,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
                     <h1 className="text-3xl font-bold text-white mb-1">ARAXYSO</h1>
-                    <p className="text-purple-200/90 text-sm">Age 17 | code breaker</p>
+                    <p className="text-purple-200/90 text-sm">Age 18 | Life is Roblox</p>
                   </div>
                 </div>
               </div>
