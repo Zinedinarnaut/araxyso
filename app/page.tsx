@@ -60,7 +60,7 @@ export default function Home() {
         <div className="fixed inset-0 z-[-2] overflow-hidden">
           <video ref={videoRef} className="absolute min-w-full min-h-full object-cover" autoPlay loop muted playsInline>
             <source
-                src="https://cdn.discordapp.com/attachments/1366374297202982963/1372703610236043408/60fps_1.mp4?ex=682fa65c&is=682e54dc&hm=95e54abc99a6f59a494a6cdb78996868fce62cbcde2f6b3254a460570b3b8b4d&"
+                src="https://vvsjgfmxdtecylyv.public.blob.vercel-storage.com/content/60fps_1-rUY55APtGPV3S7Jri89jnIJZb2HTfY.mp4"
                 type="video/mp4"
             />
             Your browser does not support the video tag.
@@ -84,7 +84,7 @@ export default function Home() {
                 <div className="aspect-square relative overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Image
-                        src="https://cdn.discordapp.com/attachments/1366374297202982963/1374899380540407909/a_24d07f7eb342ef7c072b48c9f4208eca.gif?ex=682fba54&is=682e68d4&hm=a25776cf70f91293d90c3b9393fd6dae595bd5f3fa8501120c7782249c833b54&"
+                        src="https://vvsjgfmxdtecylyv.public.blob.vercel-storage.com/content/a_24d07f7eb342ef7c072b48c9f4208eca-lzzfJfuvyHjCqMyNzwK9MfvXz4nRwg.gif"
                         alt="Profile"
                         width={500}
                         height={500}
@@ -181,7 +181,7 @@ export default function Home() {
             {/* Image Background */}
             <div className="absolute inset-0 z-0 top-[0px] h-[1200px]">
               <Image
-                  src="/vivian.png"
+                  src="https://vvsjgfmxdtecylyv.public.blob.vercel-storage.com/content/vivian-CjpRz37PryNIcgpkPP7t36p6Ow5G2y.png"
                   alt="Vivian character"
                   layout="fill"
                   objectFit="cover"
