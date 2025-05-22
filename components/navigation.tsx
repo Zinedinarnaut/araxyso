@@ -11,15 +11,19 @@ const navItems = [
     { name: "Projects", path: "/projects" },
     {
         name: "Journey",
-        children: [{ name: "Blog", path: "/blog" }, { name: "Companies", path: "/companies" }, { name: "Changelogs", path: "/changelogs" }],
+        children: [
+            { name: "Blog", path: "/blog" },
+            { name: "Companies", path: "/companies" },
+            // { name: "Changelogs", path: "/changelogs" }
+        ],
     },
     {
         name: "Pc",
         children: [
             { name: "Lab", path: "/lab" },
             { name: "Games", path: "/games" },
-            { name: "Server status", path: "/server-status" },
-            { name: "Cheats", path: "/cheats" },
+            // { name: "Server status", path: "/server-status" },
+            // { name: "Cheats", path: "/cheats" },
         ],
     },
     { name: "Anime&Manga", path: "/anime" },
