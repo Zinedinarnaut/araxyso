@@ -54,7 +54,7 @@ export function SteamProfile({ profileUrl = "https://steamcommunity.com/id/zined
         username: "zinny ✗",
         level: 11,
         avatarUrl:
-            "https://sjc.microlink.io/HKMrmFtP7MZmbpGjGWfsWAHlb2zSCAwdxFLP-QLaDoK-ZVH0HA8xdqijHNIMqRPHboxQcPvCveO5vRbMc6MhEw.jpeg",
+            "https://avatars.githubusercontent.com/u/69326871?v=4",
         yearsOfService: 7,
         xp: 350,
         gamesOwned: 58,
@@ -138,7 +138,7 @@ export function SteamProfile({ profileUrl = "https://steamcommunity.com/id/zined
                             <div className="flex gap-4">
                                 <div className="relative h-20 w-20 rounded-md overflow-hidden border border-purple-900/30">
                                     <Image
-                                        src="https://avatars.fastly.steamstatic.com/9f5147d8fc45fbb883e66e370c1bc1a4a67f2579_full.jpg"
+                                        src="https://avatars.githubusercontent.com/u/69326871?v=4"
                                         alt={profileData.username}
                                         layout="fill"
                                         objectFit="cover"

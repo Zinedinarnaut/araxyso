@@ -35,13 +35,6 @@ const socialLinks = [
   { name: "Email", icon: Mail, url: "mailto:inquiries@nanite.tech" },
 ]
 
-const skills = [
-  { name: "Reverse Engineering", progress: 90 },
-  { name: "Software Development", progress: 85 },
-  { name: "Web Development", progress: 80 },
-  { name: "System Architecture", progress: 75 },
-]
-
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null)
   useRef<HTMLVideoElement>(null);
@@ -84,7 +77,7 @@ export default function Home() {
                 <div className="aspect-square relative overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Image
-                        src="https://vvsjgfmxdtecylyv.public.blob.vercel-storage.com/content/a_24d07f7eb342ef7c072b48c9f4208eca-lzzfJfuvyHjCqMyNzwK9MfvXz4nRwg.gif"
+                        src="img.png"
                         alt="Profile"
                         width={500}
                         height={500}
@@ -131,26 +124,6 @@ export default function Home() {
                                 <Icon className="h-4 w-4 text-purple-400" />
                               </div>
                               {text}
-                            </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <h3 className="text-sm font-medium text-purple-300 uppercase tracking-wider">Skills</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {skills.map((skill) => (
-                            <div key={skill.name} className="space-y-1">
-                              <div className="flex justify-between text-xs">
-                                <span className="text-purple-200/80">{skill.name}</span>
-                                <span className="text-purple-200/60">{skill.progress}%</span>
-                              </div>
-                              <div className="h-1.5 bg-purple-900/30 rounded-full overflow-hidden">
-                                <div
-                                    className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
-                                    style={{ width: `${skill.progress}%` }}
-                                ></div>
-                              </div>
                             </div>
                         ))}
                       </div>
