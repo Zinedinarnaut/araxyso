@@ -10,9 +10,7 @@ import { RelatedPosts } from "@/components/RelatedPosts"
 import type { Metadata } from "next"
 
 interface BlogPostPageProps {
-    params: {
-        id: string
-    }
+    params: Promise<{ id: string }>
 }
 
 export const dynamicParams = false
@@ -24,7 +22,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-    const { id } = params
+    const { id } = await params
     const post = blogPosts.find((p) => p.id === id)
 
     if (!post) {
@@ -39,14 +37,15 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     }
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-    const post = blogPosts.find((post) => post.id === params.id)
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+    const { id } = await params
+    const post = blogPosts.find((post) => post.id === id)
 
     if (!post) {
         notFound()
     }
 
-    const relatedPosts = blogPosts.filter((p) => p.id !== params.id).slice(0, 3)
+    const relatedPosts =  blogPosts.filter((p) => p.id !== params.id).slice(0, 3)
 
     return (
         <div className="min-h-screen text-purple-200 bg-gradient-to-b from-black to-purple-900/20">
@@ -141,6 +140,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                     ))}
                                 </ul>
                             </div>
+
                         </div>
                     </aside>
                 </div>
