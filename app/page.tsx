@@ -21,13 +21,9 @@ import {
   Database,
   Layout,
   PenToolIcon as Tool,
-  Server,
-  ArrowRight,
-  Star,
-  Gamepad2,
+  Gamepad2, Blocks,
 } from "lucide-react"
 import { SpotifyNowPlaying } from "@/components/SpotifyNowPlaying"
-import { SteamProfile } from "@/components/SteamProfile"
 
 const socialLinks = [
   { name: "GitHub", icon: Github, url: "https://github.com/zinedinarnaut" },
@@ -50,16 +46,16 @@ export default function Home() {
   return (
       <div className="relative min-h-screen">
         {/* Video Background */}
-        <div className="fixed inset-0 z-[-2] overflow-hidden">
-          <video ref={videoRef} className="absolute min-w-full min-h-full object-cover" autoPlay loop muted playsInline>
-            <source
-                src="https://vvsjgfmxdtecylyv.public.blob.vercel-storage.com/content/60fps_1-rUY55APtGPV3S7Jri89jnIJZb2HTfY.mp4"
-                type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
-          <div className="absolute inset-0 bg-black/80"></div>
-        </div>
+        {/*<div className="fixed inset-0 z-[-2] overflow-hidden">*/}
+        {/*  <video ref={videoRef} className="absolute min-w-full min-h-full object-cover" autoPlay loop muted playsInline>*/}
+        {/*    <source*/}
+        {/*        src="https://vvsjgfmxdtecylyv.public.blob.vercel-storage.com/content/60fps_1-rUY55APtGPV3S7Jri89jnIJZb2HTfY.mp4"*/}
+        {/*        type="video/mp4"*/}
+        {/*    />*/}
+        {/*    Your browser does not support the video tag.*/}
+        {/*  </video>*/}
+        {/*  <div className="absolute inset-0 bg-black/80"></div>*/}
+        {/*</div>*/}
 
         {/* Glowing Overlay */}
         <div className="fixed inset-0 z-[-1]">
@@ -100,8 +96,7 @@ export default function Home() {
                     <div>
                       <h2 className="text-xl font-bold text-purple-300 mb-2">software.engineer/reverse.engineer</h2>
                       <p className="text-purple-200/80">
-                        Young prodigy specializing in software engineering and reverse engineering, pushing the boundaries
-                        of future technology with a focus on cybersecurity and system architecture.
+                        Hi, I&#39;m Zinedin, aka Zinny! I&#39;m 18 and passionate about development, especially reverse engineering. I love coding and building projects, aiming to gain real industry experience and make my mark in tech.
                       </p>
                     </div>
 
@@ -118,6 +113,7 @@ export default function Home() {
                           { icon: Brain, text: "AI/ML Engineering" },
                           { icon: Layout, text: "Frontend Development" },
                           { icon: Database, text: "Backend Development" },
+                          { icon: Blocks, text: "Roblox Development" },
                         ].map(({ icon: Icon, text }) => (
                             <div key={text} className="flex items-center gap-2 text-sm text-purple-200/80">
                               <div className="w-8 h-8 rounded-full bg-purple-900/30 flex items-center justify-center">
@@ -150,92 +146,92 @@ export default function Home() {
           </div>
 
           {/* Featured Project Section */}
-          <div className="mb-16 relative overflow-hidden rounded-lg border bg-black/40 border-purple-900/30">
-            {/* Image Background */}
-            <div className="absolute inset-0 z-0 top-[0px] h-[1200px]">
-              <Image
-                  src="https://vvsjgfmxdtecylyv.public.blob.vercel-storage.com/content/vivian-CjpRz37PryNIcgpkPP7t36p6Ow5G2y.png"
-                  alt="Vivian character"
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="right"
-                  className="scale-70"
-              />
-            </div>
+          {/*<div className="mb-16 relative overflow-hidden rounded-lg border bg-black/40 border-purple-900/30">*/}
+          {/*  /!* Image Background *!/*/}
+          {/*  <div className="absolute inset-0 z-0 top-[0px] h-[1200px]">*/}
+          {/*    <Image*/}
+          {/*        src="https://vvsjgfmxdtecylyv.public.blob.vercel-storage.com/content/vivian-CjpRz37PryNIcgpkPP7t36p6Ow5G2y.png"*/}
+          {/*        alt="Vivian character"*/}
+          {/*        layout="fill"*/}
+          {/*        objectFit="cover"*/}
+          {/*        objectPosition="right"*/}
+          {/*        className="scale-70"*/}
+          {/*    />*/}
+          {/*  </div>*/}
 
-            {/* Content */}
-            <div className="relative z-10 p-8 md:p-10 flex flex-col md:flex-row items-center gap-8">
-              <div className="md:w-1/2">
-                <Badge className="mb-4 bg-purple-500/20 text-purple-200 border-purple-500/30 px-3 py-1">
-                  <Star className="h-3 w-3 mr-2 fill-purple-400" />
-                  Featured Project
-                </Badge>
-                <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">
-                  Vivian-rs
-                </h2>
-                <p className="text-purple-200/80 mb-6">
-                  Experimental server emulator for the game Zenless Zone Zero. Built with Rust for high performance and
-                  memory safety.
-                </p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  <Badge className="bg-black/40 text-purple-200/80 border-purple-900/30">Rust</Badge>
-                  <Badge className="bg-black/40 text-purple-200/80 border-purple-900/30">Game Development</Badge>
-                  <Badge className="bg-black/40 text-purple-200/80 border-purple-900/30">Reverse Engineering</Badge>
-                  <Badge className="bg-black/40 text-purple-200/80 border-purple-900/30">Server Emulation</Badge>
-                </div>
-                <div className="flex items-center gap-4 mb-6">
-                  <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-                    <Server className="h-4 w-4 mr-2" />
-                    View Project
-                  </Button>
-                  <Link
-                      href="/projects"
-                      className="text-purple-400 hover:text-purple-300 transition-colors flex items-center"
-                  >
-                    All Projects
-                    <ArrowRight className="h-4 w-4 ml-1" />
-                  </Link>
-                </div>
-                <div className="text-sm text-purple-200/60">
-                  <p className="mb-1">Credits:</p>
-                  <div className="flex flex-col gap-2">
-                    <div>
-                      <Badge variant="outline" className="bg-purple-900/20 text-purple-200/80 border-purple-900/30 mr-2">
-                        XeonDev
-                      </Badge>
-                      <span className="text-purple-200/70">Original Creator & Programmer</span>
-                    </div>
-                    <div>
-                      <Badge variant="outline" className="bg-purple-900/20 text-purple-200/80 border-purple-900/30 mr-2">
-                        Reversed Rooms
-                      </Badge>
-                      <span className="text-purple-200/70">Contributor</span>
-                    </div>
-                  </div>
-                  <p className="mt-2 text-xs">
-                    <span className="text-yellow-400">Note:</span> Project will be open-sourced soon at{" "}
-                    <a
-                        href="https://github.com/Zinedinarnaut/vivian-rs"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-purple-400 hover:text-purple-300 transition-colors underline"
-                    >
-                      github.com/Zinedinarnaut/vivian-rs
-                    </a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/*  /!* Content *!/*/}
+          {/*  <div className="relative z-10 p-8 md:p-10 flex flex-col md:flex-row items-center gap-8">*/}
+          {/*    <div className="md:w-1/2">*/}
+          {/*      <Badge className="mb-4 bg-purple-500/20 text-purple-200 border-purple-500/30 px-3 py-1">*/}
+          {/*        <Star className="h-3 w-3 mr-2 fill-purple-400" />*/}
+          {/*        Featured Project*/}
+          {/*      </Badge>*/}
+          {/*      <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">*/}
+          {/*        Vivian-rs*/}
+          {/*      </h2>*/}
+          {/*      <p className="text-purple-200/80 mb-6">*/}
+          {/*        Experimental server emulator for the game Zenless Zone Zero. Built with Rust for high performance and*/}
+          {/*        memory safety.*/}
+          {/*      </p>*/}
+          {/*      <div className="flex flex-wrap gap-2 mb-6">*/}
+          {/*        <Badge className="bg-black/40 text-purple-200/80 border-purple-900/30">Rust</Badge>*/}
+          {/*        <Badge className="bg-black/40 text-purple-200/80 border-purple-900/30">Game Development</Badge>*/}
+          {/*        <Badge className="bg-black/40 text-purple-200/80 border-purple-900/30">Reverse Engineering</Badge>*/}
+          {/*        <Badge className="bg-black/40 text-purple-200/80 border-purple-900/30">Server Emulation</Badge>*/}
+          {/*      </div>*/}
+          {/*      <div className="flex items-center gap-4 mb-6">*/}
+          {/*        <Button className="bg-purple-600 hover:bg-purple-700 text-white">*/}
+          {/*          <Server className="h-4 w-4 mr-2" />*/}
+          {/*          View Project*/}
+          {/*        </Button>*/}
+          {/*        <Link*/}
+          {/*            href="/projects"*/}
+          {/*            className="text-purple-400 hover:text-purple-300 transition-colors flex items-center"*/}
+          {/*        >*/}
+          {/*          All Projects*/}
+          {/*          <ArrowRight className="h-4 w-4 ml-1" />*/}
+          {/*        </Link>*/}
+          {/*      </div>*/}
+          {/*      <div className="text-sm text-purple-200/60">*/}
+          {/*        <p className="mb-1">Credits:</p>*/}
+          {/*        <div className="flex flex-col gap-2">*/}
+          {/*          <div>*/}
+          {/*            <Badge variant="outline" className="bg-purple-900/20 text-purple-200/80 border-purple-900/30 mr-2">*/}
+          {/*              XeonDev*/}
+          {/*            </Badge>*/}
+          {/*            <span className="text-purple-200/70">Original Creator & Programmer</span>*/}
+          {/*          </div>*/}
+          {/*          <div>*/}
+          {/*            <Badge variant="outline" className="bg-purple-900/20 text-purple-200/80 border-purple-900/30 mr-2">*/}
+          {/*              Reversed Rooms*/}
+          {/*            </Badge>*/}
+          {/*            <span className="text-purple-200/70">Contributor</span>*/}
+          {/*          </div>*/}
+          {/*        </div>*/}
+          {/*        <p className="mt-2 text-xs">*/}
+          {/*          <span className="text-yellow-400">Note:</span> Project will be open-sourced soon at{" "}*/}
+          {/*          <a*/}
+          {/*              href="https://github.com/Zinedinarnaut/vivian-rs"*/}
+          {/*              target="_blank"*/}
+          {/*              rel="noopener noreferrer"*/}
+          {/*              className="text-purple-400 hover:text-purple-300 transition-colors underline"*/}
+          {/*          >*/}
+          {/*            github.com/Zinedinarnaut/vivian-rs*/}
+          {/*          </a>*/}
+          {/*        </p>*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
 
           {/* Steam Profile Section */}
-          <div className="mb-12">
-            <h2 className="text-lg font-medium text-purple-300 mb-3 border-b border-purple-900/30 pb-2 flex items-center">
-              <Gamepad2 className="h-4 w-4 mr-2 text-purple-400" />
-              Steam Profile
-            </h2>
-            <SteamProfile profileUrl="https://steamcommunity.com/id/zinedinarnaut" />
-          </div>
+          {/*<div className="mb-12">*/}
+          {/*  <h2 className="text-lg font-medium text-purple-300 mb-3 border-b border-purple-900/30 pb-2 flex items-center">*/}
+          {/*    <Gamepad2 className="h-4 w-4 mr-2 text-purple-400" />*/}
+          {/*    Steam Profile*/}
+          {/*  </h2>*/}
+          {/*  <SteamProfile profileUrl="https://steamcommunity.com/id/zinedinarnaut" />*/}
+          {/*</div>*/}
 
           {/* Now Playing Section */}
           <div className="mb-12">
