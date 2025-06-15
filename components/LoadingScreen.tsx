@@ -41,7 +41,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
     ]
 
     // Typewriter effect for messages
-    const typeMessage = (message: string, index: number) => {
+    const typeMessage = (message: string) => {
         setIsTyping(true)
         setCurrentMessage("")
 
@@ -207,7 +207,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
         if (messageIndex < messages.length && messageIndex !== systemMessages.length) {
             messageTimeoutRef.current = setTimeout(
                 () => {
-                    typeMessage(messages[messageIndex], messageIndex)
+                    typeMessage(messages[messageIndex])
                 },
                 Math.random() * 500 + 300, // Faster message typing
             )

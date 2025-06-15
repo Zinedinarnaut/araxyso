@@ -483,7 +483,7 @@ export default function LabPage() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                    Welcome to my tech command center. Here you'll find detailed specifications of all my hardware setups, from my
+                    Welcome to my tech command center. Here you&#39;ll find detailed specifications of all my hardware setups, from my
                     main desktop rig to peripherals and server equipment.
                 </motion.p>
 

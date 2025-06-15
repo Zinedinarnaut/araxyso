@@ -7,7 +7,6 @@ import { blogPosts } from "@/data/blog-posts"
 import { BlogContent } from "@/components/BlogContent"
 import { AuthorBio } from "@/components/AuthorBio"
 import { RelatedPosts } from "@/components/RelatedPosts"
-import { CyberButton } from "@/components/CyberButton"
 import type { Metadata } from "next"
 
 interface BlogPostPageProps {
