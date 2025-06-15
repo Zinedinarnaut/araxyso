@@ -45,7 +45,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         notFound()
     }
 
-    const relatedPosts =  blogPosts.filter((p) => p.id !== params.id).slice(0, 3)
+    const relatedPosts = blogPosts.filter((p) => p.id !== id).slice(0, 3)
 
     return (
         <div className="min-h-screen text-purple-200 bg-gradient-to-b from-black to-purple-900/20">
@@ -140,7 +140,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                     ))}
                                 </ul>
                             </div>
-
                         </div>
                     </aside>
                 </div>
