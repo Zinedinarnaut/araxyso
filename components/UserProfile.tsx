@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { AlertTriangle } from "lucide-react"
+import { AlertTriangle, Hash, ExternalLink, Calendar } from "lucide-react"
 import type { UserData } from "./types"
 
 const ANILIST_API = "https://graphql.anilist.co"
@@ -15,6 +15,22 @@ query ($username: String) {
     name
     avatar {
       medium
+      large
+    }
+    bannerImage
+    siteUrl
+    createdAt
+    about
+    statistics {
+      anime {
+        count
+        episodesWatched
+        minutesWatched
+      }
+      manga {
+        count
+        chaptersRead
+      }
     }
   }
 }
@@ -62,17 +78,25 @@ export function UserProfile() {
 
     if (loading) {
         return (
-            <Card className="bg-purple-900/10 border-purple-500/20 p-6">
-                <CardContent>
-                    <div className="flex items-center space-x-4">
-                        <Skeleton className="w-16 h-16 rounded-full" />
-                        <div>
-                            <Skeleton className="h-6 w-32 mb-2" />
-                            <Skeleton className="h-4 w-24" />
+            <div className="relative h-48 overflow-hidden rounded-xl">
+                <Skeleton className="absolute inset-0" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="flex items-end space-x-6">
+                        <div className="relative">
+                            <Skeleton className="w-20 h-20 rounded-full border-4 border-white/20" />
+                        </div>
+                        <div className="flex-1 space-y-3">
+                            <Skeleton className="h-7 w-40" />
+                            <Skeleton className="h-5 w-32" />
+                            <div className="flex gap-4">
+                                <Skeleton className="h-6 w-20 rounded-full" />
+                                <Skeleton className="h-6 w-24 rounded-full" />
+                            </div>
                         </div>
                     </div>
-                </CardContent>
-            </Card>
+                </div>
+            </div>
         )
     }
 
@@ -81,7 +105,10 @@ export function UserProfile() {
             <Card className="bg-red-900/10 border-red-500/20 p-6">
                 <CardContent>
                     <div className="flex items-center space-x-4">
-                        <AlertTriangle className="h-12 w-12 text-red-400" />
+                        <div className="relative">
+                            <AlertTriangle className="h-12 w-12 text-red-400" />
+                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-ping" />
+                        </div>
                         <div>
                             <h3 className="text-xl font-bold text-red-400">Error Loading User Data</h3>
                             <p className="text-red-200/70">{error}</p>
@@ -96,22 +123,95 @@ export function UserProfile() {
         return null
     }
 
+    const joinDate = new Date(userData.createdAt * 1000)
+
     return (
-        <Card className="bg-purple-900/10 border-purple-500/20 p-6">
-            <CardContent>
-                <div className="flex items-center space-x-4">
+        <div className="relative h-48 overflow-hidden rounded-xl group">
+            {/* Banner Background */}
+            {userData.bannerImage ? (
+                <div className="absolute inset-0">
                     <img
-                        src={userData.avatar.medium || "/placeholder.svg"}
-                        alt={userData.name}
-                        className="w-16 h-16 rounded-full"
+                        src={userData.bannerImage || "/placeholder.svg"}
+                        alt={`${userData.name}'s banner`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div>
-                        <h3 className="text-xl font-bold text-purple-200">{userData.name}</h3>
-                        <p className="text-purple-200/70">User ID: {userData.id}</p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-transparent to-pink-900/30" />
+                </div>
+            ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 via-black/60 to-pink-900/40" />
+            )}
+
+            {/* Animated particles */}
+            <div className="absolute top-4 right-4 w-2 h-2 bg-purple-400/60 rounded-full animate-ping" />
+            <div className="absolute top-8 right-12 w-1 h-1 bg-pink-400/40 rounded-full animate-pulse" />
+            <div className="absolute top-12 right-6 w-1 h-1 bg-blue-400/50 rounded-full animate-ping" />
+
+            {/* Content */}
+            <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                <div className="flex items-end space-x-6">
+                    {/* Enhanced Avatar */}
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/40 to-pink-500/40 rounded-full animate-pulse" />
+                        <img
+                            src={userData.avatar.large || userData.avatar.medium || "/placeholder.svg"}
+                            alt={userData.name}
+                            className="relative w-20 h-20 rounded-full border-4 border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-105 shadow-2xl"
+                        />
+                        <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-green-400 to-green-500 rounded-full border-2 border-white/20 flex items-center justify-center shadow-lg">
+                            <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                        </div>
+                    </div>
+
+                    {/* User Info */}
+                    <div className="flex-1 space-y-2">
+                        <div className="flex items-center gap-3">
+                            <h3 className="text-2xl font-bold text-white drop-shadow-lg">{userData.name}</h3>
+                            <div className="px-3 py-1 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full">
+                                <span className="text-xs text-white font-medium">OTAKU</span>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-white/80">
+                            <Hash className="h-4 w-4" />
+                            <span className="font-mono text-sm">ID: {userData.id}</span>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-white/70">
+                            <Calendar className="h-4 w-4" />
+                            <span className="text-sm">
+                Joined {joinDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+              </span>
+                        </div>
+
+                        {/* Quick Stats */}
+                        <div className="flex gap-4 mt-4">
+                            <div className="flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                                <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
+                                <span className="text-xs text-white">{userData.statistics.anime.count} Anime</span>
+                            </div>
+                            <div className="flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                                <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" />
+                                <span className="text-xs text-white">{userData.statistics.manga.count} Manga</span>
+                            </div>
+                            <div className="flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+                                <span className="text-xs text-white">
+                  {Math.round(userData.statistics.anime.minutesWatched / 60)}h Watched
+                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* External Link */}
+                    <div className="flex items-center gap-2 text-white/60 hover:text-white/80 transition-colors cursor-pointer">
+                        <ExternalLink className="h-4 w-4" />
                     </div>
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+
+            {/* Hover overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-purple-500/10 via-transparent to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        </div>
     )
 }
-
