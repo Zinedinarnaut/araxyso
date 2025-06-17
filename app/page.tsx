@@ -41,13 +41,6 @@ const socialLinks = [
   { name: "Email", icon: Mail, url: "mailto:inquiries@nanite.tech", color: "from-red-600 to-red-800" },
 ]
 
-const skills = [
-  { name: "Reverse Engineering", progress: 90, color: "from-red-500 to-pink-500" },
-  { name: "Software Development", progress: 85, color: "from-blue-500 to-cyan-500" },
-  { name: "Web Development", progress: 80, color: "from-green-500 to-emerald-500" },
-  { name: "Roblox Development", progress: 95, color: "from-orange-500 to-yellow-500" },
-]
-
 const achievements = [
   { icon: Award, text: "18 Years Old", color: "text-yellow-400" },
   { icon: Zap, text: "Life is Roblox", color: "text-red-400" },
@@ -319,7 +312,7 @@ export default function Home() {
                     </div>
                     <h3 className="font-medium text-purple-200 mb-2">Companies</h3>
                     <p className="text-purple-200/60 text-sm mb-3 flex-grow">
-                      Discover the companies I've founded and my work experience.
+                      Discover the companies I&#39;ve founded and my work experience.
                     </p>
                     <span className="text-purple-400 text-sm group-hover:text-purple-300 flex items-center">
                     View Companies

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
-import { Music, Play, ExternalLink, Volume2, Clock, Eye, Pause, SkipForward, SkipBack, Heart } from "lucide-react"
+import { Music, ExternalLink, Volume2, Clock, Eye, Heart } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 
@@ -128,8 +128,7 @@ export function SpotifyNowPlaying() {
                 // Enhanced BPM estimation
                 let estimatedBPM = 120
                 const titleLower = data.title.toLowerCase()
-                const artistLower = data.artist.toLowerCase()
-
+                data.artist.toLowerCase();
                 if (titleLower.includes("slow") || titleLower.includes("ballad") || titleLower.includes("chill")) {
                     estimatedBPM = 70
                 } else if (titleLower.includes("dance") || titleLower.includes("electronic") || titleLower.includes("house")) {
