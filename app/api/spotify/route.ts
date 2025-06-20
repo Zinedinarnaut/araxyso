@@ -50,7 +50,7 @@ export async function GET() {
 
         const isPlaying = song.is_playing
         const title = song.item.name
-        const artist = song.item.artists.map((_artist: any) => _artist.name).join(", ")
+        const artist = song.item.artists.map((_artist: Record<string, unknown>) => _artist.name as string).join(", ")
         const album = song.item.album.name
         const albumImageUrl = song.item.album.images[0]?.url
         const songUrl = song.item.external_urls.spotify
@@ -58,12 +58,12 @@ export async function GET() {
         // Extract track ID from the Spotify URI or external URL
         const trackId = song.item.id || song.item.uri?.split(":")[2] || songUrl?.split("/").pop()?.split("?")[0]
 
-        // console.log("🎵 Spotify track data:", {
-        //     title,
-        //     artist,
-        //     trackId,
-        //     isPlaying,
-        // })
+        console.log("🎵 Spotify track data:", {
+            title,
+            artist,
+            trackId,
+            isPlaying,
+        })
 
         return NextResponse.json({
             album,

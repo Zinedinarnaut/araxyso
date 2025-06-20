@@ -5,47 +5,110 @@ export async function GET() {
         const username = "zinedinarnaut"
         const token = process.env.GITHUB_TOKEN
 
-        console.log("🔄 Fetching GitHub stats for:", username)
+        console.log("🔄 Fetching REAL GitHub stats for:", username)
         console.log("🔑 Token status:", token ? "Present" : "Missing")
 
-        // First, try without authentication for public repos
-        const headers: Record<string, string> = {
-            Accept: "application/vnd.github.v3+json",
-            "User-Agent": "Portfolio-App",
+        if (!token) {
+            return NextResponse.json(
+                {
+                    error: "GitHub Token Required",
+                    message: "GITHUB_TOKEN environment variable is required for real data",
+                    instructions: [
+                        "1. Go to GitHub.com → Settings → Developer settings → Personal access tokens",
+                        "2. Generate new token (classic)",
+                        "3. Select scopes: 'public_repo', 'read:user', 'read:org'",
+                        "4. Copy the token and set GITHUB_TOKEN environment variable",
+                    ],
+                },
+                { status: 401 },
+            )
         }
 
-        // Try public API first
-        console.log("🌐 Trying public API access...")
-        let response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, {
-            headers,
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/vnd.github+json",
+            "User-Agent": "Portfolio-App",
+            "X-GitHub-Api-Version": "2022-11-28",
+        }
+
+        // GraphQL query to get REAL contribution data and stats
+        const graphqlQuery = {
+            query: `
+        query($username: String!) {
+          user(login: $username) {
+            contributionsCollection {
+              totalCommitContributions
+              totalIssueContributions  
+              totalPullRequestContributions
+              totalPullRequestReviewContributions
+              contributionCalendar {
+                totalContributions
+                weeks {
+                  contributionDays {
+                    contributionCount
+                    date
+                    color
+                  }
+                }
+              }
+            }
+            repositories(first: 100, orderBy: {field: UPDATED_AT, direction: DESC}) {
+              totalCount
+              nodes {
+                stargazerCount
+                forkCount
+                primaryLanguage {
+                  name
+                  color
+                }
+                createdAt
+                updatedAt
+                isPrivate
+              }
+            }
+            pullRequests(first: 1) {
+              totalCount
+            }
+            issues(first: 1) {
+              totalCount
+            }
+            followers {
+              totalCount
+            }
+            following {
+              totalCount
+            }
+          }
+        }
+      `,
+            variables: {
+                username: username,
+            },
+        }
+
+        console.log("🌐 Fetching real data from GitHub GraphQL API...")
+        const graphqlResponse = await fetch("https://api.github.com/graphql", {
+            method: "POST",
+            headers: {
+                ...headers,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(graphqlQuery),
         })
 
-        // If public fails and we have a token, try with token
-        if (!response.ok && token) {
-            console.log("🔐 Public API failed, trying with token...")
-            headers.Authorization = `Bearer ${token}`
+        if (!graphqlResponse.ok) {
+            const errorData = await graphqlResponse.json().catch(() => ({ message: "Unknown error" }))
+            console.error("❌ GitHub GraphQL API failed:", graphqlResponse.status, errorData)
 
-            response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, {
-                headers,
-            })
-        }
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: "Unknown error" }))
-            console.error("❌ GitHub API failed:", response.status, errorData)
-
-            // Handle specific error cases
-            if (response.status === 401) {
+            if (graphqlResponse.status === 401) {
                 return NextResponse.json(
                     {
                         error: "GitHub Authentication Failed",
-                        message: token
-                            ? "Your GitHub token is invalid or expired. Please generate a new one."
-                            : "GitHub token required for this user's repositories.",
+                        message: "Your GitHub token is invalid or expired. Please generate a new one.",
                         instructions: [
                             "1. Go to GitHub.com → Settings → Developer settings → Personal access tokens",
                             "2. Generate new token (classic)",
-                            "3. Select 'public_repo' scope",
+                            "3. Select scopes: 'public_repo', 'read:user', 'read:org'",
                             "4. Copy the token and set GITHUB_TOKEN environment variable",
                         ],
                     },
@@ -53,99 +116,103 @@ export async function GET() {
                 )
             }
 
-            if (response.status === 403) {
-                return NextResponse.json(
-                    {
-                        error: "GitHub Rate Limited",
-                        message: "Too many requests to GitHub API. Please try again later.",
-                    },
-                    { status: 403 },
-                )
-            }
-
             return NextResponse.json(
                 {
-                    error: "GitHub API Error",
-                    message: errorData.message || "Failed to fetch repositories",
-                    status: response.status,
+                    error: "GitHub GraphQL Error",
+                    message: errorData.message || "Failed to fetch real GitHub data",
+                    status: graphqlResponse.status,
                 },
-                { status: response.status },
+                { status: graphqlResponse.status },
             )
         }
 
-        const repos = await response.json()
-        console.log("✅ Successfully fetched", repos.length, "repositories")
+        const graphqlData = await graphqlResponse.json()
 
-        // Calculate real stats from repository data
-        const totalStars = repos.reduce((sum: number, repo: any) => sum + (repo.stargazers_count || 0), 0)
-        const totalForks = repos.reduce((sum: number, repo: any) => sum + (repo.forks_count || 0), 0)
-        const totalRepos = repos.length
-
-        console.log("📊 Stats calculated:", { totalStars, totalForks, totalRepos })
-
-        // Generate realistic contribution calendar
-        const generateContributionCalendar = () => {
-            const weeks = []
-            const today = new Date()
-            const startDate = new Date(today)
-            startDate.setFullYear(today.getFullYear() - 1)
-
-            let totalContributions = 0
-
-            for (let week = 0; week < 53; week++) {
-                const contributionDays = []
-
-                for (let day = 0; day < 7; day++) {
-                    const currentDate = new Date(startDate)
-                    currentDate.setDate(startDate.getDate() + week * 7 + day)
-
-                    // More realistic contribution pattern based on actual development
-                    const isWeekend = day === 0 || day === 6
-                    const isRecentWeek = week > 40 // More activity in recent weeks
-
-                    let contributionCount = 0
-                    const activityChance = isWeekend ? 0.2 : isRecentWeek ? 0.7 : 0.4
-
-                    if (Math.random() < activityChance) {
-                        contributionCount = Math.floor(Math.random() * 8) + 1
-                    }
-
-                    totalContributions += contributionCount
-
-                    contributionDays.push({
-                        date: currentDate.toISOString().split("T")[0],
-                        contributionCount,
-                        color: contributionCount === 0 ? "#1f2937" : "#00ff41", // Matrix green for Y2K vibe
-                    })
-                }
-
-                weeks.push({ contributionDays })
-            }
-
-            return { totalContributions, weeks }
+        if (graphqlData.errors) {
+            console.error("❌ GraphQL errors:", graphqlData.errors)
+            return NextResponse.json(
+                {
+                    error: "GitHub GraphQL Errors",
+                    message: "GraphQL query returned errors",
+                    details: graphqlData.errors,
+                },
+                { status: 400 },
+            )
         }
 
-        const contributionCalendar = generateContributionCalendar()
+        const userData = graphqlData.data.user
+        console.log("✅ Real GitHub data fetched successfully!")
 
-        // Calculate realistic estimates based on actual data
-        const stats = {
-            totalCommits: Math.max(totalRepos * 25, 150), // More realistic commit count
-            totalPRs: Math.max(Math.floor(totalRepos * 3), 15),
-            totalIssues: Math.max(Math.floor(totalRepos * 2), 8),
+        // Extract REAL statistics
+        const contributions = userData.contributionsCollection
+        const repos = userData.repositories.nodes
+
+        // Calculate real repository stats
+        const totalStars = repos.reduce((sum: number, repo: any) => sum + repo.stargazerCount, 0)
+        const totalForks = repos.reduce((sum: number, repo: any) => sum + repo.forkCount, 0)
+
+        // Get language distribution
+        const languageStats = repos
+            .filter((repo: any) => repo.primaryLanguage)
+            .reduce((acc: any, repo: any) => {
+                const lang = repo.primaryLanguage.name
+                acc[lang] = (acc[lang] || 0) + 1
+                return acc
+            }, {})
+
+        const topLanguages = Object.entries(languageStats)
+            .sort(([, a]: any, [, b]: any) => b - a)
+            .slice(0, 5)
+            .map(([name, count]) => ({ name, count, percentage: Math.round(((count as number) / repos.length) * 100) }))
+
+        // Real contribution statistics
+        const realStats = {
+            // REAL commit data from GitHub
+            totalCommits: contributions.totalCommitContributions,
+
+            // REAL PR data from GitHub
+            totalPRs: contributions.totalPullRequestContributions,
+
+            // REAL issues data from GitHub
+            totalIssues: contributions.totalIssueContributions,
+
+            // REAL stars and forks from repositories
             totalStars,
             totalForks,
-            contributionCalendar,
+
+            // REAL contribution calendar from GitHub
+            contributionCalendar: contributions.contributionCalendar,
+
+            // Additional real stats
+            totalRepos: userData.repositories.totalCount,
+            totalFollowers: userData.followers.totalCount,
+            totalFollowing: userData.following.totalCount,
+            totalPRReviews: contributions.totalPullRequestReviewContributions,
+
+            // Language breakdown
+            topLanguages,
+
+            // Repository insights
+            publicRepos: repos.filter((repo: any) => !repo.isPrivate).length,
+            privateRepos: repos.filter((repo: any) => repo.isPrivate).length,
         }
 
-        console.log("✅ Final stats generated:", stats)
-        return NextResponse.json(stats)
+        console.log("📊 REAL GitHub stats compiled:", {
+            commits: realStats.totalCommits,
+            prs: realStats.totalPRs,
+            issues: realStats.totalIssues,
+            stars: realStats.totalStars,
+            contributions: realStats.contributionCalendar.totalContributions,
+        })
+
+        return NextResponse.json(realStats)
     } catch (error) {
-        console.error("❌ Unexpected error:", error)
+        console.error("❌ Unexpected error fetching real GitHub data:", error)
 
         return NextResponse.json(
             {
                 error: "Server Error",
-                message: "An unexpected error occurred while fetching GitHub data",
+                message: "An unexpected error occurred while fetching real GitHub data",
                 details: error instanceof Error ? error.message : "Unknown error",
             },
             { status: 500 },

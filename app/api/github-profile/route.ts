@@ -103,7 +103,7 @@ export async function GET() {
                                 break
                             }
                         }
-                    } catch (e) {
+                    } catch (_e) {
                         console.log(`⚠️ ${endpoint} not accessible`)
                     }
                 }
@@ -113,11 +113,9 @@ export async function GET() {
         }
 
         // Generate realistic achievement badges based on common GitHub achievements
-        const generateRealisticAchievements = (profileData: any) => {
-            const achievements = []
+        const generateRealisticAchievements = (profileData: Record<string, unknown>) => {
             const joinYear = new Date(profileData.created_at).getFullYear()
             const currentYear = new Date().getFullYear()
-            const yearsOnGitHub = currentYear - joinYear
 
             // Common GitHub achievements with real badge designs
             const commonAchievements = [
@@ -229,7 +227,7 @@ export async function GET() {
         const achievements = realAchievements.length > 0 ? realAchievements : generateRealisticAchievements(profile)
 
         // Generate additional profile badges
-        const generateProfileBadges = (profileData: any) => {
+        const generateProfileBadges = (profileData: Record<string, unknown>) => {
             const badges = []
             const joinYear = new Date(profileData.created_at).getFullYear()
             const currentYear = new Date().getFullYear()

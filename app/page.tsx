@@ -49,12 +49,28 @@ const stats = [
   { label: "Followers", value: "156", icon: Users },
 ]
 
+// Deterministic particle positions to avoid hydration issues
+const particlePositions = [
+  { left: 15, top: 25, delay: 2, duration: 12, color: 0 },
+  { left: 75, top: 15, delay: 5, duration: 15, color: 1 },
+  { left: 25, top: 65, delay: 1, duration: 10, color: 2 },
+  { left: 85, top: 45, delay: 7, duration: 14, color: 0 },
+  { left: 45, top: 85, delay: 3, duration: 11, color: 1 },
+  { left: 65, top: 25, delay: 6, duration: 13, color: 2 },
+  { left: 35, top: 55, delay: 4, duration: 16, color: 0 },
+  { left: 55, top: 75, delay: 8, duration: 9, color: 1 },
+]
+
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [glitchActive, setGlitchActive] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    // Fix hydration by only showing particles after mount
+    setIsMounted(true)
+
     const video = videoRef.current
     if (video) {
       video.play().catch((error) => {
@@ -74,7 +90,7 @@ export default function Home() {
   }, [])
 
   return (
-      <div className="relative min-h-screen overflow-hidden ">
+      <div className="relative min-h-screen overflow-hidden">
         {/* Subtle Background Effects - Billie Style */}
         <div className="fixed inset-0 z-[-1]">
           {/* Dark gradient background */}
@@ -92,27 +108,33 @@ export default function Home() {
           />
         </div>
 
-        {/* Minimal floating elements */}
-        <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
-          {[...Array(8)].map((_, i) => (
-              <div
-                  key={i}
-                  className="absolute animate-float-subtle"
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                    animationDelay: `${Math.random() * 10}s`,
-                    animationDuration: `${8 + Math.random() * 12}s`,
-                  }}
-              >
-                <div
-                    className={`w-1 h-1 rounded-full ${
-                        i % 3 === 0 ? "bg-emerald-400/30" : i % 3 === 1 ? "bg-blue-400/30" : "bg-orange-400/30"
-                    } animate-pulse`}
-                />
-              </div>
-          ))}
-        </div>
+        {/* Minimal floating elements - Only render after mount to avoid hydration issues */}
+        {isMounted && (
+            <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
+              {particlePositions.map((particle, i) => (
+                  <div
+                      key={i}
+                      className="absolute animate-float-subtle"
+                      style={{
+                        left: `${particle.left}%`,
+                        top: `${particle.top}%`,
+                        animationDelay: `${particle.delay}s`,
+                        animationDuration: `${particle.duration}s`,
+                      }}
+                  >
+                    <div
+                        className={`w-1 h-1 rounded-full ${
+                            particle.color === 0
+                                ? "bg-emerald-400/30"
+                                : particle.color === 1
+                                    ? "bg-blue-400/30"
+                                    : "bg-orange-400/30"
+                        } animate-pulse`}
+                    />
+                  </div>
+              ))}
+            </div>
+        )}
 
         {/* Main Content */}
         <div className="relative z-10 pt-12 pb-20 max-w-6xl mx-auto px-4">
@@ -201,7 +223,7 @@ export default function Home() {
 
                       {/* Clean Stats Grid */}
                       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                        {stats.map((stat, index) => (
+                        {stats.map((stat) => (
                             <div key={stat.label} className="group cursor-pointer">
                               <div className="p-4 bg-gray-900/50 border border-gray-700 rounded-xl backdrop-blur-sm hover:border-emerald-400/30 transition-all duration-300 hover:bg-gray-800/50">
                                 <div className="text-center">
@@ -241,8 +263,9 @@ export default function Home() {
                     About
                   </h2>
                   <p className="text-gray-300 leading-relaxed">
-                    Hi, I'm Zinedin, aka Zinny! I'm 18 and passionate about development, especially reverse engineering. I
-                    love coding and building projects, aiming to gain real industry experience and make my mark in tech.
+                    Hi, I&apos;m Zinedin, aka Zinny! I&apos;m 18 and passionate about development, especially reverse
+                    engineering. I love coding and building projects, aiming to gain real industry experience and make my
+                    mark in tech.
                     <span className="text-emerald-400 font-medium"> Life is Roblox! 🎮</span>
                   </p>
                 </div>
@@ -265,13 +288,13 @@ export default function Home() {
                       { icon: Layout, text: "Frontend Development", color: "blue" },
                       { icon: Database, text: "Backend Development", color: "orange" },
                       { icon: Blocks, text: "Roblox Development", color: "emerald" },
-                    ].map(({ icon: Icon, text, color }, index) => (
+                    ].map(({ icon: Icon, text, color }, _index) => (
                         <div
                             key={text}
                             className={`group relative p-3 bg-gray-900/30 border border-gray-700 rounded-lg backdrop-blur-sm hover:border-${color}-400/30 transition-all duration-300 hover:bg-gray-800/30 cursor-pointer ${
                                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                             }`}
-                            style={{ transitionDelay: `${index * 50}ms` }}
+                            style={{ transitionDelay: `${_index * 50}ms` }}
                         >
                           <div className="text-center">
                             <Icon
@@ -361,7 +384,7 @@ export default function Home() {
                     </div>
                     <h3 className="font-bold text-white mb-2">Companies</h3>
                     <p className="text-gray-400 text-sm mb-3 flex-grow">
-                      Discover the companies I've founded and my work experience.
+                      Discover the companies I&#39;ve founded and my work experience.
                     </p>
                     <span className="text-blue-400 text-sm font-medium group-hover:text-blue-300 flex items-center transition-colors">
                     View Companies
