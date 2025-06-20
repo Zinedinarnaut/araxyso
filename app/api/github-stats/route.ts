@@ -199,12 +199,14 @@ export async function GET() {
         const totalStars = repos.reduce((sum: number, repo: GitHubRepository) => sum + repo.stargazerCount, 0)
         const totalForks = repos.reduce((sum: number, repo: GitHubRepository) => sum + repo.forkCount, 0)
 
-        // Get language distribution
+        // Get language distribution - FIX: Check if lang exists before using as index
         const languageStats = repos
             .filter((repo: GitHubRepository) => repo.primaryLanguage)
             .reduce((acc: Record<string, number>, repo: GitHubRepository) => {
                 const lang = repo.primaryLanguage?.name
-                acc[lang] = (acc[lang] || 0) + 1
+                if (lang) {
+                    acc[lang] = (acc[lang] || 0) + 1
+                }
                 return acc
             }, {})
 

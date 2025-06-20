@@ -23,7 +23,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
     const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null)
     const completionHandledRef = useRef(false)
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const animationFrameRef = useRef<number>()
+    const animationFrameRef = useRef<number | undefined>(undefined)
 
     // Pre-defined particle positions to avoid hydration issues
     const particlePositions = [
