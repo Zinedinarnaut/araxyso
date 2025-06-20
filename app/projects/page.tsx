@@ -19,6 +19,8 @@ import {
     List,
     Activity,
     Zap,
+    AlertTriangle,
+    Key,
 } from "lucide-react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
@@ -34,7 +36,7 @@ export default function ProjectsPage() {
     const [stats, setStats] = useState<GitHubStats | null>(null)
     const [loading, setLoading] = useState(true)
     const [reposError, setReposError] = useState<string | null>(null)
-    const [statsError, setStatsError] = useState<string | null>(null)
+    const [statsError, setStatsError] = useState<any>(null)
     const [searchTerm, setSearchTerm] = useState("")
     const [languageFilter, setLanguageFilter] = useState("all")
     const [sortBy, setSortBy] = useState("updated")
@@ -71,13 +73,13 @@ export default function ProjectsPage() {
                     console.log("✅ Stats loaded:", statsData)
                     setStats(statsData)
                 } else {
-                    const errorText = await statsResponse.text()
-                    console.warn("⚠️ Stats API failed:", statsResponse.status, errorText)
-                    setStatsError(`Stats unavailable (${statsResponse.status})`)
+                    const errorData = await statsResponse.json().catch(() => ({ error: "Unknown error" }))
+                    console.warn("⚠️ Stats API failed:", statsResponse.status, errorData)
+                    setStatsError(errorData)
                 }
             } catch (error) {
                 console.warn("⚠️ Stats fetch error:", error)
-                setStatsError("Stats temporarily unavailable")
+                setStatsError({ error: "Network Error", message: "Failed to connect to GitHub API" })
             }
 
             setLoading(false)
@@ -190,17 +192,36 @@ export default function ProjectsPage() {
                         </motion.div>
                     )}
 
-                    {/* Stats Error - Show warning if stats failed but repos worked */}
+                    {/* Enhanced Stats Error - Show detailed error if stats failed */}
                     {statsError && !stats && (
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                            <Card className="p-4 bg-yellow-900/20 border border-yellow-500/30">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full bg-yellow-900/20 flex items-center justify-center">
-                                        <Activity className="h-4 w-4 text-yellow-400" />
+                            <Card className="p-6 bg-yellow-900/20 border border-yellow-500/30">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-10 h-10 rounded-full bg-yellow-900/20 flex items-center justify-center flex-shrink-0">
+                                        {statsError.error === "GitHub Authentication Failed" ? (
+                                            <Key className="h-5 w-5 text-yellow-400" />
+                                        ) : (
+                                            <AlertTriangle className="h-5 w-5 text-yellow-400" />
+                                        )}
                                     </div>
-                                    <div>
-                                        <p className="text-yellow-200 font-medium">Stats Dashboard Unavailable</p>
-                                        <p className="text-yellow-200/70 text-sm">{statsError}</p>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold text-yellow-200 mb-2">
+                                            {statsError.error || "Stats Dashboard Unavailable"}
+                                        </h3>
+                                        <p className="text-yellow-200/80 mb-4">
+                                            {statsError.message || "Unable to load GitHub statistics"}
+                                        </p>
+
+                                        {statsError.instructions && (
+                                            <div className="bg-yellow-900/10 border border-yellow-500/20 rounded-lg p-4">
+                                                <h4 className="text-yellow-200 font-medium mb-2">How to fix this:</h4>
+                                                <ol className="text-yellow-200/70 text-sm space-y-1">
+                                                    {statsError.instructions.map((instruction: string, index: number) => (
+                                                        <li key={index}>{instruction}</li>
+                                                    ))}
+                                                </ol>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </Card>

@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
-import { Music, ExternalLink, Volume2, Clock, Eye, Heart } from "lucide-react"
+import { Music, ExternalLink, Volume2, Clock, Video, Zap } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 
 interface SpotifyData {
     album: string
@@ -15,29 +16,51 @@ interface SpotifyData {
     isPlaying: boolean
     songUrl: string
     title: string
+    trackId: string
+}
+
+interface CanvasData {
+    canvas_url?: string
+    canvas_type?: string
+    artist?: any
+    trackUri?: string
+    canvasUri?: string
+    id?: string
+    error?: string
 }
 
 export function SpotifyNowPlaying() {
     const [data, setData] = useState<SpotifyData | null>(null)
     const [loading, setLoading] = useState(true)
-    const [ambientMode, setAmbientMode] = useState(true)
     const canvasRef = useRef<HTMLCanvasElement>(null)
+    const videoRef = useRef<HTMLVideoElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
-    const [dominantColor, setDominantColor] = useState<string>("rgba(139, 92, 246, 0.4)")
+    const [dominantColor, setDominantColor] = useState<string>("rgba(139, 92, 246, 0.3)")
     const [pulseSize, setPulseSize] = useState(1)
     const [beatInterval, setBeatInterval] = useState<NodeJS.Timeout | null>(null)
-    const [secondaryColor, setSecondaryColor] = useState<string>("rgba(236, 72, 153, 0.4)")
-    const [isLiked, setIsLiked] = useState(false)
+    const [secondaryColor, setSecondaryColor] = useState<string>("rgba(236, 72, 153, 0.2)")
+    const [canvasData, setCanvasData] = useState<CanvasData | null>(null)
+    const [canvasLoading, setCanvasLoading] = useState(false)
+    const [tempo, setTempo] = useState(120)
+    const [energy, setEnergy] = useState(0.5)
+    const [videoQuality, setVideoQuality] = useState<"loading" | "low" | "medium" | "high">("loading")
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
             try {
                 const res = await fetch("/api/spotify")
-                const data = await res.json()
-                setData(data)
+                const spotifyData = await res.json()
+                setData(spotifyData)
+
+                // Only show toast for new tracks, not every refresh
+                if (spotifyData.isPlaying && spotifyData.trackId) {
+                    fetchCanvas(spotifyData.trackId)
+                }
             } catch (error) {
-                console.error("Failed to fetch Spotify data:", error)
+                toast.error("Failed to fetch Spotify data", {
+                    description: "Check your Spotify connection",
+                })
             } finally {
                 setLoading(false)
             }
@@ -48,9 +71,91 @@ export function SpotifyNowPlaying() {
         return () => clearInterval(interval)
     }, [])
 
-    // Enhanced color extraction with better algorithm
+    const fetchCanvas = async (trackId: string) => {
+        setCanvasLoading(true)
+        setVideoQuality("loading")
+
+        // Show loading toast for Canvas
+        const loadingToast = toast.loading("Loading Canvas video...", {
+            description: "Fetching high-quality visuals",
+        })
+
+        try {
+            const res = await fetch(`/api/spotify-canvas?trackId=${trackId}`)
+            const canvas = await res.json()
+            setCanvasData(canvas)
+
+            if (canvas.canvas_url && videoRef.current) {
+                const video = videoRef.current
+
+                // Set video attributes for better quality
+                video.src = canvas.canvas_url
+                video.preload = "metadata"
+                video.crossOrigin = "anonymous"
+
+                // Quality detection and enhancement
+                video.addEventListener("loadedmetadata", () => {
+                    const width = video.videoWidth
+                    const height = video.videoHeight
+
+                    // Determine quality based on resolution
+                    let quality: "low" | "medium" | "high"
+                    if (width >= 1080) {
+                        quality = "high"
+                        toast.success("Canvas loaded in HD!", {
+                            description: `${width}x${height} • Crystal clear quality`,
+                        })
+                    } else if (width >= 720) {
+                        quality = "medium"
+                        toast.success("Canvas loaded", {
+                            description: `${width}x${height} • Good quality`,
+                        })
+                    } else {
+                        quality = "low"
+                        toast.warning("Canvas loaded (Low quality)", {
+                            description: `${width}x${height} • Enhanced with filters`,
+                        })
+                    }
+
+                    setVideoQuality(quality)
+                    toast.dismiss(loadingToast)
+                })
+
+                video.addEventListener("error", () => {
+                    toast.error("Canvas failed to load", {
+                        description: "Video format not supported",
+                    })
+                    setVideoQuality("loading")
+                    toast.dismiss(loadingToast)
+                })
+
+                video.addEventListener("canplay", () => {
+                    toast.dismiss(loadingToast)
+                })
+
+                video.load()
+            } else {
+                toast.info("No Canvas available", {
+                    description: "This track doesn't have a Canvas video",
+                })
+                setVideoQuality("loading")
+                toast.dismiss(loadingToast)
+            }
+        } catch (error) {
+            toast.error("Canvas API error", {
+                description: "Failed to fetch Canvas data",
+            })
+            setCanvasData({ error: "Failed to load Canvas" })
+            setVideoQuality("loading")
+            toast.dismiss(loadingToast)
+        } finally {
+            setCanvasLoading(false)
+        }
+    }
+
+    // Simplified color extraction for better performance
     useEffect(() => {
-        if (!data?.albumImageUrl || !ambientMode) return
+        if (!data?.albumImageUrl) return
 
         const img = new window.Image()
         img.crossOrigin = "anonymous"
@@ -63,117 +168,87 @@ export function SpotifyNowPlaying() {
             const ctx = canvas.getContext("2d")
             if (!ctx) return
 
-            canvas.width = img.width
-            canvas.height = img.height
-            ctx.drawImage(img, 0, 0)
+            // Smaller canvas for better performance
+            canvas.width = 100
+            canvas.height = 100
+            ctx.drawImage(img, 0, 0, 100, 100)
 
             try {
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data
-                const colors: Array<{ r: number; g: number; b: number; count: number; vibrance: number }> = []
+                const imageData = ctx.getImageData(0, 0, 100, 100).data
+                let r = 0,
+                    g = 0,
+                    b = 0,
+                    count = 0
 
+                // Simplified color extraction - just get average
                 for (let i = 0; i < imageData.length; i += 16) {
-                    const red = imageData[i]
-                    const green = imageData[i + 1]
-                    const blue = imageData[i + 2]
-                    const alpha = imageData[i + 3]
-
-                    if (alpha < 128 || red + green + blue < 120) continue
-
-                    const max = Math.max(red, green, blue)
-                    const min = Math.min(red, green, blue)
-                    const saturation = max === 0 ? 0 : (max - min) / max
-                    const brightness = (red + green + blue) / 3
-                    const vibrance = saturation * brightness
-
-                    if (saturation > 0.3 && brightness > 50) {
-                        let found = false
-                        for (const color of colors) {
-                            if (Math.abs(color.r - red) < 40 && Math.abs(color.g - green) < 40 && Math.abs(color.b - blue) < 40) {
-                                color.r = (color.r * color.count + red) / (color.count + 1)
-                                color.g = (color.g * color.count + green) / (color.count + 1)
-                                color.b = (color.b * color.count + blue) / (color.count + 1)
-                                color.count++
-                                color.vibrance = Math.max(color.vibrance, vibrance)
-                                found = true
-                                break
-                            }
-                        }
-
-                        if (!found) {
-                            colors.push({ r: red, g: green, b: blue, count: 1, vibrance })
-                        }
-                    }
+                    r += imageData[i]
+                    g += imageData[i + 1]
+                    b += imageData[i + 2]
+                    count++
                 }
 
-                colors.sort((a, b) => b.vibrance * b.count - a.vibrance * a.count)
+                r = Math.floor(r / count)
+                g = Math.floor(g / count)
+                b = Math.floor(b / count)
 
-                if (colors.length > 0) {
-                    const mainColor = colors[0]
-                    setDominantColor(
-                        `rgba(${Math.round(mainColor.r)}, ${Math.round(mainColor.g)}, ${Math.round(mainColor.b)}, 0.4)`,
-                    )
+                setDominantColor(`rgba(${r}, ${g}, ${b}, 0.3)`)
+                setSecondaryColor(`rgba(${255 - r}, ${255 - g}, ${255 - b}, 0.2)`)
 
-                    if (colors.length > 1) {
-                        const secondColor = colors[1]
-                        setSecondaryColor(
-                            `rgba(${Math.round(secondColor.r)}, ${Math.round(secondColor.g)}, ${Math.round(secondColor.b)}, 0.3)`,
-                        )
-                    } else {
-                        setSecondaryColor(
-                            `rgba(${255 - Math.round(mainColor.r)}, ${255 - Math.round(mainColor.g)}, ${255 - Math.round(mainColor.b)}, 0.3)`,
-                        )
-                    }
-                }
-
-                // Enhanced BPM estimation
+                // Simplified BPM estimation
                 let estimatedBPM = 120
                 const titleLower = data.title.toLowerCase()
-                data.artist.toLowerCase();
-                if (titleLower.includes("slow") || titleLower.includes("ballad") || titleLower.includes("chill")) {
-                    estimatedBPM = 70
-                } else if (titleLower.includes("dance") || titleLower.includes("electronic") || titleLower.includes("house")) {
+
+                if (titleLower.includes("slow") || titleLower.includes("ballad")) {
+                    estimatedBPM = 80
+                } else if (titleLower.includes("dance") || titleLower.includes("electronic")) {
                     estimatedBPM = 128
-                } else if (titleLower.includes("rock") || titleLower.includes("metal") || titleLower.includes("punk")) {
+                } else if (titleLower.includes("rock") || titleLower.includes("metal")) {
                     estimatedBPM = 140
-                } else if (titleLower.includes("hip hop") || titleLower.includes("rap") || titleLower.includes("trap")) {
-                    estimatedBPM = 85
                 }
 
                 if (beatInterval) clearInterval(beatInterval)
 
+                // Less frequent pulse for better performance
                 const interval = setInterval(
                     () => {
-                        setPulseSize((prev) => (prev === 1 ? 1.08 : 1))
+                        setPulseSize((prev) => (prev === 1 ? 1.05 : 1))
                     },
                     (60 / estimatedBPM) * 1000,
                 )
 
                 setBeatInterval(interval)
             } catch (error) {
-                console.error("Error extracting color:", error)
+                // Only show toast for critical color extraction errors
+                if (error instanceof Error && error.message.includes("CORS")) {
+                    toast.error("Image loading blocked", {
+                        description: "CORS policy prevented color extraction",
+                    })
+                }
             }
+        }
+
+        img.onerror = () => {
+            toast.error("Album art failed to load", {
+                description: "Using fallback colors",
+            })
         }
 
         return () => {
             if (beatInterval) clearInterval(beatInterval)
         }
-    }, [data?.albumImageUrl, ambientMode])
+    }, [data?.albumImageUrl])
 
     if (loading) {
         return (
             <div className="relative overflow-hidden rounded-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black/40 to-pink-900/20 backdrop-blur-sm" />
-                <Card className="bg-black/60 border-purple-500/20 backdrop-blur-md relative">
+                <Card className="bg-black/60 border-purple-500/20 backdrop-blur-sm relative">
                     <div className="p-8">
                         <div className="flex items-center gap-6">
-                            <div className="relative">
-                                <div className="w-24 h-24 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl animate-pulse" />
-                                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-2xl animate-pulse delay-75" />
-                            </div>
+                            <div className="w-24 h-24 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl animate-pulse" />
                             <div className="flex-1 space-y-3">
                                 <div className="h-6 bg-gradient-to-r from-purple-500/30 to-transparent rounded-full animate-pulse" />
-                                <div className="h-4 bg-gradient-to-r from-pink-500/30 to-transparent rounded-full animate-pulse delay-75" />
-                                <div className="h-3 bg-gradient-to-r from-purple-500/20 to-transparent rounded-full animate-pulse delay-150" />
+                                <div className="h-4 bg-gradient-to-r from-pink-500/30 to-transparent rounded-full animate-pulse" />
                             </div>
                         </div>
                     </div>
@@ -185,15 +260,11 @@ export function SpotifyNowPlaying() {
     if (!data?.isPlaying) {
         return (
             <div className="relative overflow-hidden rounded-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/10 via-black/40 to-pink-900/10" />
-                <Card className="bg-black/60 border-purple-500/20 backdrop-blur-md relative">
+                <Card className="bg-black/60 border-purple-500/20 backdrop-blur-sm relative">
                     <div className="p-8">
                         <div className="flex flex-col items-center justify-center text-center space-y-4">
-                            <div className="relative">
-                                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-                                    <Music className="h-8 w-8 text-purple-400" />
-                                </div>
-                                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500/10 to-pink-500/10 animate-ping" />
+                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                                <Music className="h-8 w-8 text-purple-400" />
                             </div>
                             <div>
                                 <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
@@ -208,6 +279,32 @@ export function SpotifyNowPlaying() {
         )
     }
 
+    const getQualityBadgeColor = () => {
+        switch (videoQuality) {
+            case "high":
+                return "bg-green-500/20 text-green-400 border-green-500/40"
+            case "medium":
+                return "bg-yellow-500/20 text-yellow-400 border-yellow-500/40"
+            case "low":
+                return "bg-red-500/20 text-red-400 border-red-500/40"
+            default:
+                return "bg-gray-500/20 text-gray-400 border-gray-500/40"
+        }
+    }
+
+    const getQualityIcon = () => {
+        switch (videoQuality) {
+            case "high":
+                return <Zap className="h-3 w-3 mr-1" />
+            case "medium":
+                return <Video className="h-3 w-3 mr-1" />
+            case "low":
+                return <Video className="h-3 w-3 mr-1" />
+            default:
+                return <Video className="h-3 w-3 mr-1" />
+        }
+    }
+
     return (
         <>
             <canvas ref={canvasRef} className="hidden" />
@@ -215,102 +312,144 @@ export function SpotifyNowPlaying() {
                 ref={containerRef}
                 className="relative overflow-hidden rounded-2xl mb-8"
                 style={{
-                    boxShadow: ambientMode
-                        ? `0 0 120px 10px ${dominantColor}, 0 0 60px 5px ${secondaryColor}`
-                        : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                    boxShadow: `0 0 80px 5px ${dominantColor}`,
                     transition: "box-shadow 0.8s ease-in-out",
                 }}
             >
-                {/* Enhanced ambient background */}
-                {ambientMode && (
-                    <div className="absolute inset-0 -z-10">
-                        <motion.div
-                            animate={{
-                                scale: [1, pulseSize, 1],
-                                rotate: [0, 2, 0, -2, 0],
-                            }}
-                            transition={{
-                                duration: 3,
-                                ease: "easeInOut",
-                                repeat: Number.POSITIVE_INFINITY,
-                            }}
-                            className="absolute inset-0"
-                            style={{
-                                background: `radial-gradient(circle at 30% 70%, ${dominantColor} 0%, transparent 60%)`,
-                                filter: "blur(40px)",
-                            }}
-                        />
-                        <motion.div
-                            animate={{
-                                scale: [1.1, 1, 1.1],
-                                opacity: [0.4, 0.7, 0.4],
-                            }}
-                            transition={{
-                                duration: 4,
-                                ease: "easeInOut",
-                                repeat: Number.POSITIVE_INFINITY,
-                            }}
-                            className="absolute inset-0"
-                            style={{
-                                background: `radial-gradient(circle at 70% 30%, ${secondaryColor} 0%, transparent 50%)`,
-                                filter: "blur(60px)",
-                            }}
-                        />
-                        {/* Floating particles */}
-                        {[...Array(6)].map((_, i) => (
-                            <motion.div
-                                key={i}
-                                className="absolute w-2 h-2 rounded-full"
+                {/* Enhanced Canvas + Minimal Ambient Background */}
+                <div className="absolute inset-0 -z-10">
+                    {/* ENHANCED Canvas Video Layer */}
+                    {canvasData?.canvas_url && (
+                        <div className="absolute inset-0">
+                            <video
+                                ref={videoRef}
+                                className="w-full h-full object-cover"
                                 style={{
-                                    background: i % 2 === 0 ? dominantColor : secondaryColor,
-                                    left: `${20 + i * 15}%`,
-                                    top: `${30 + (i % 3) * 20}%`,
+                                    // CSS filters to enhance video quality
+                                    filter:
+                                        videoQuality === "low"
+                                            ? "contrast(1.1) saturate(1.2) brightness(1.05) sharpen(1px)"
+                                            : "contrast(1.05) saturate(1.1)",
+                                    // Better scaling algorithm
+                                    imageRendering: "crisp-edges",
+                                    // Prevent blurry scaling
+                                    transform: "translateZ(0)",
+                                    backfaceVisibility: "hidden",
+                                    perspective: "1000px",
+                                    // Enhanced opacity based on quality
+                                    opacity: videoQuality === "high" ? 0.98 : videoQuality === "medium" ? 0.95 : 0.9,
                                 }}
-                                animate={{
-                                    y: [-10, 10, -10],
-                                    opacity: [0.3, 0.8, 0.3],
-                                }}
-                                transition={{
-                                    duration: 3 + i * 0.5,
-                                    repeat: Number.POSITIVE_INFINITY,
-                                    delay: i * 0.3,
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                // Enhanced video attributes for better quality
+                                preload="metadata"
+                                crossOrigin="anonymous"
+                                onLoadedData={() => {
+                                    if (videoRef.current && data.isPlaying) {
+                                        // Force high quality playback
+                                        videoRef.current.playbackRate = 1.0
+                                        videoRef.current.play()
+                                    }
                                 }}
                             />
-                        ))}
-                    </div>
-                )}
+                            {/* Minimal overlay for text readability */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
 
-                {/* Main player card */}
-                <Card className="bg-black/70 border-purple-500/30 backdrop-blur-xl relative overflow-hidden">
-                    {/* Animated background pattern */}
-                    <div className="absolute inset-0 opacity-5">
-                        <div
-                            className="absolute inset-0"
+                            {/* Quality enhancement overlay for low quality videos */}
+                            {videoQuality === "low" && (
+                                <div
+                                    className="absolute inset-0 pointer-events-none"
+                                    style={{
+                                        background: "radial-gradient(circle, transparent 0%, rgba(0,0,0,0.1) 100%)",
+                                        mixBlendMode: "overlay",
+                                    }}
+                                />
+                            )}
+                        </div>
+                    )}
+
+                    {/* Minimal Ambient Effects (only when no Canvas) */}
+                    {!canvasData?.canvas_url && (
+                        <>
+                            <motion.div
+                                animate={{
+                                    scale: [1, pulseSize, 1],
+                                }}
+                                transition={{
+                                    duration: 2,
+                                    ease: "easeInOut",
+                                    repeat: Number.POSITIVE_INFINITY,
+                                }}
+                                className="absolute inset-0"
+                                style={{
+                                    background: `radial-gradient(circle at 30% 70%, ${dominantColor} 0%, transparent 60%)`,
+                                    filter: "blur(20px)",
+                                }}
+                            />
+                            <motion.div
+                                animate={{
+                                    scale: [1.1, 1, 1.1],
+                                    opacity: [0.3, 0.5, 0.3],
+                                }}
+                                transition={{
+                                    duration: 3,
+                                    ease: "easeInOut",
+                                    repeat: Number.POSITIVE_INFINITY,
+                                }}
+                                className="absolute inset-0"
+                                style={{
+                                    background: `radial-gradient(circle at 70% 30%, ${secondaryColor} 0%, transparent 50%)`,
+                                    filter: "blur(30px)",
+                                }}
+                            />
+                        </>
+                    )}
+
+                    {/* Minimal particles */}
+                    {[...Array(4)].map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className="absolute w-1 h-1 rounded-full opacity-40"
                             style={{
-                                backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
-                                backgroundSize: "20px 20px",
+                                background: i % 2 === 0 ? dominantColor : secondaryColor,
+                                left: `${25 + i * 20}%`,
+                                top: `${40 + (i % 2) * 20}%`,
+                            }}
+                            animate={{
+                                y: [-5, 5, -5],
+                                opacity: [0.2, 0.6, 0.2],
+                            }}
+                            transition={{
+                                duration: 4 + i,
+                                repeat: Number.POSITIVE_INFINITY,
+                                delay: i * 0.5,
                             }}
                         />
-                    </div>
+                    ))}
+                </div>
 
-                    {/* Enhanced equalizer */}
-                    <div className="absolute bottom-0 left-0 right-0 h-2 flex justify-center items-end space-x-1 px-6 opacity-60">
-                        {[...Array(32)].map((_, i) => (
+                {/* Main player card */}
+                <Card className="bg-black/40 border-purple-500/30 backdrop-blur-sm relative overflow-hidden">
+                    {/* Simplified equalizer */}
+                    <div className="absolute bottom-0 left-0 right-0 h-2 flex justify-center items-end space-x-1 px-6 opacity-40">
+                        {[...Array(20)].map((_, i) => (
                             <motion.div
                                 key={i}
                                 className="w-1 rounded-t-full"
                                 style={{
                                     background: `linear-gradient(to top, ${dominantColor}, ${secondaryColor})`,
                                 }}
-                                initial={{ height: 2 }}
+                                initial={{ height: 1 }}
                                 animate={{
-                                    height: [2, Math.random() * 16 + 4, 3, Math.random() * 12 + 2, 2],
+                                    height: [1, Math.random() * 12 + 2, 1],
                                 }}
                                 transition={{
-                                    duration: 1.2,
+                                    duration: 1.5,
                                     repeat: Number.POSITIVE_INFINITY,
                                     repeatType: "reverse",
-                                    delay: i * 0.03,
+                                    delay: i * 0.05,
                                     ease: "easeInOut",
                                 }}
                             />
@@ -318,37 +457,27 @@ export function SpotifyNowPlaying() {
                     </div>
 
                     <div className="p-8 relative z-10">
-                        {/* Header with controls */}
+                        {/* Header with enhanced status */}
                         <div className="flex items-center justify-between mb-6">
-                            <motion.div
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.5 }}
-                            >
+                            <div className="flex items-center gap-3">
                                 <Badge className="bg-green-500/20 text-green-400 border-green-500/40 px-4 py-2 text-sm font-medium">
                                     <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse" />
                                     Now Playing
                                 </Badge>
-                            </motion.div>
+                                {canvasData?.canvas_url && (
+                                    <Badge className={`px-3 py-1 text-xs ${getQualityBadgeColor()}`}>
+                                        {getQualityIcon()}
+                                        {videoQuality.toUpperCase()} CANVAS
+                                    </Badge>
+                                )}
+                                {canvasLoading && (
+                                    <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/40 px-3 py-1 text-xs">
+                                        Loading Canvas...
+                                    </Badge>
+                                )}
+                            </div>
 
                             <div className="flex items-center gap-3">
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-10 w-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10"
-                                    onClick={() => setAmbientMode(!ambientMode)}
-                                    title={ambientMode ? "Disable ambient mode" : "Enable ambient mode"}
-                                >
-                                    <Eye className={`h-4 w-4 ${ambientMode ? "text-purple-300" : "text-purple-500/50"}`} />
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="h-10 w-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10"
-                                    onClick={() => setIsLiked(!isLiked)}
-                                >
-                                    <Heart className={`h-4 w-4 ${isLiked ? "text-red-400 fill-red-400" : "text-white/60"}`} />
-                                </Button>
                                 <Button
                                     variant="ghost"
                                     size="sm"
@@ -367,23 +496,14 @@ export function SpotifyNowPlaying() {
                             {/* Enhanced album art */}
                             <motion.div
                                 className="relative group"
-                                initial={{ opacity: 0, scale: 0.8 }}
+                                initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.6, ease: "easeOut" }}
+                                transition={{ duration: 0.5 }}
                             >
-                                <motion.div
-                                    animate={{
-                                        scale: ambientMode ? [1, pulseSize, 1] : 1,
-                                        rotate: data.isPlaying ? [0, 360] : 0,
-                                    }}
-                                    transition={{
-                                        scale: { duration: 0.6, ease: "easeInOut" },
-                                        rotate: { duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" },
-                                    }}
-                                    className="absolute -inset-1 rounded-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                                <div
+                                    className="absolute -inset-1 rounded-3xl opacity-50 transition-opacity duration-300 group-hover:opacity-70"
                                     style={{
-                                        background: `conic-gradient(from 0deg, ${dominantColor}, ${secondaryColor}, ${dominantColor})`,
-                                        filter: "blur(8px)",
+                                        background: `linear-gradient(45deg, ${dominantColor}, ${secondaryColor})`,
                                     }}
                                 />
                                 <div className="relative w-40 h-40 lg:w-48 lg:h-48 rounded-3xl overflow-hidden bg-black/20">
@@ -391,40 +511,27 @@ export function SpotifyNowPlaying() {
                                         src={data.albumImageUrl || "/placeholder.svg"}
                                         alt={data.album}
                                         fill
-                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        style={{
+                                            // Enhanced image rendering
+                                            imageRendering: "crisp-edges",
+                                        }}
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-                                </div>
-
-                                {/* Vinyl record effect */}
-                                <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
-                                    <div className="absolute inset-4 rounded-full border border-white/10" />
-                                    <div className="absolute inset-8 rounded-full border border-white/5" />
-                                    <div className="absolute top-1/2 left-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/40" />
                                 </div>
                             </motion.div>
 
-                            {/* Enhanced song details */}
+                            {/* Song details */}
                             <div className="flex-1 text-center lg:text-left space-y-4">
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: 0.2 }}
-                                >
-                                    <h2 className="text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-pink-200 mb-2 leading-tight">
+                                <div>
+                                    <h2 className="text-3xl lg:text-4xl font-bold text-white mb-2 leading-tight drop-shadow-lg">
                                         {data.title}
                                     </h2>
-                                    <p className="text-xl text-purple-200/90 mb-1">{data.artist}</p>
-                                    <p className="text-sm text-purple-200/60">{data.album}</p>
-                                </motion.div>
+                                    <p className="text-xl text-purple-200/90 mb-1 drop-shadow-md">{data.artist}</p>
+                                    <p className="text-sm text-purple-200/60 drop-shadow-sm">{data.album}</p>
+                                </div>
 
                                 {/* Enhanced metadata */}
-                                <motion.div
-                                    className="flex flex-wrap gap-3 justify-center lg:justify-start"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: 0.4 }}
-                                >
+                                <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                                     <div className="flex items-center text-xs text-white/70 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
                                         <Volume2 className="h-3 w-3 mr-2" />
                                         <span>Spotify Connect</span>
@@ -435,9 +542,9 @@ export function SpotifyNowPlaying() {
                                     </div>
                                     <div className="flex items-center text-xs text-white/70 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
                                         <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse" />
-                                        <span>High Quality</span>
+                                        <span>Enhanced Quality</span>
                                     </div>
-                                </motion.div>
+                                </div>
                             </div>
                         </div>
                     </div>
