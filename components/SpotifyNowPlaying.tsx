@@ -22,7 +22,7 @@ interface SpotifyData {
 interface CanvasData {
     canvas_url?: string
     canvas_type?: string
-    artist?: any
+    artist?: string
     trackUri?: string
     canvasUri?: string
     id?: string
@@ -41,8 +41,6 @@ export function SpotifyNowPlaying() {
     const [secondaryColor, setSecondaryColor] = useState<string>("rgba(236, 72, 153, 0.2)")
     const [canvasData, setCanvasData] = useState<CanvasData | null>(null)
     const [canvasLoading, setCanvasLoading] = useState(false)
-    const [tempo, setTempo] = useState(120)
-    const [energy, setEnergy] = useState(0.5)
     const [videoQuality, setVideoQuality] = useState<"loading" | "low" | "medium" | "high">("loading")
 
     useEffect(() => {
@@ -57,7 +55,7 @@ export function SpotifyNowPlaying() {
                 if (spotifyData.isPlaying && spotifyData.trackId) {
                     fetchCanvas(spotifyData.trackId)
                 }
-            } catch (error) {
+            } catch {
                 toast.error("Failed to fetch Spotify data", {
                     description: "Check your Spotify connection",
                 })
@@ -141,7 +139,7 @@ export function SpotifyNowPlaying() {
                 setVideoQuality("loading")
                 toast.dismiss(loadingToast)
             }
-        } catch (error) {
+        } catch {
             toast.error("Canvas API error", {
                 description: "Failed to fetch Canvas data",
             })
@@ -237,7 +235,7 @@ export function SpotifyNowPlaying() {
         return () => {
             if (beatInterval) clearInterval(beatInterval)
         }
-    }, [data?.albumImageUrl])
+    }, [data?.albumImageUrl, data?.title, beatInterval])
 
     if (loading) {
         return (

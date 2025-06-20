@@ -31,12 +31,18 @@ import type { GitHubStats } from "@/types/contributions"
 import { ContributionHeatmap } from "@/components/ContributionHeatmap"
 import { GitHubStatsDashboard } from "@/components/GitHubStatsDashboard"
 
+interface StatsError {
+    error?: string
+    message?: string
+    instructions?: string[]
+}
+
 export default function ProjectsPage() {
     const [repos, setRepos] = useState<GitHubRepo[]>([])
     const [stats, setStats] = useState<GitHubStats | null>(null)
     const [loading, setLoading] = useState(true)
     const [reposError, setReposError] = useState<string | null>(null)
-    const [statsError, setStatsError] = useState<any>(null)
+    const [statsError, setStatsError] = useState<StatsError | null>(null)
     const [searchTerm, setSearchTerm] = useState("")
     const [languageFilter, setLanguageFilter] = useState("all")
     const [sortBy, setSortBy] = useState("updated")
@@ -399,7 +405,7 @@ export default function ProjectsPage() {
                                 <Search className="h-12 w-12 text-purple-400 mx-auto mb-4" />
                                 <h3 className="text-xl font-bold text-purple-200 mb-2">No repositories found</h3>
                                 <p className="text-purple-200/50 max-w-md mx-auto">
-                                    Try adjusting your search terms or filters to find what you're looking for.
+                                    Try adjusting your search terms or filters to find what you&#39;re looking for.
                                 </p>
                             </div>
                         </Card>

@@ -1,5 +1,53 @@
 import { NextResponse } from "next/server"
 
+interface GitHubRepository {
+    stargazerCount: number
+    forkCount: number
+    primaryLanguage: {
+        name: string
+        color: string
+    } | null
+    createdAt: string
+    updatedAt: string
+    isPrivate: boolean
+}
+
+interface ContributionsCollection {
+    totalCommitContributions: number
+    totalIssueContributions: number
+    totalPullRequestContributions: number
+    totalPullRequestReviewContributions: number
+    contributionCalendar: {
+        totalContributions: number
+        weeks: Array<{
+            contributionDays: Array<{
+                contributionCount: number
+                date: string
+                color: string
+            }>
+        }>
+    }
+}
+
+interface GitHubUser {
+    contributionsCollection: ContributionsCollection
+    repositories: {
+        totalCount: number
+        nodes: GitHubRepository[]
+    }
+    pullRequests: { totalCount: number }
+    issues: { totalCount: number }
+    followers: { totalCount: number }
+    following: { totalCount: number }
+}
+
+interface GraphQLResponse {
+    data: {
+        user: GitHubUser
+    }
+    errors?: Array<{ message: string }>
+}
+
 export async function GET() {
     try {
         const username = "zinedinarnaut"
@@ -126,7 +174,7 @@ export async function GET() {
             )
         }
 
-        const graphqlData = await graphqlResponse.json()
+        const graphqlData: GraphQLResponse = await graphqlResponse.json()
 
         if (graphqlData.errors) {
             console.error("❌ GraphQL errors:", graphqlData.errors)
@@ -148,20 +196,20 @@ export async function GET() {
         const repos = userData.repositories.nodes
 
         // Calculate real repository stats
-        const totalStars = repos.reduce((sum: number, repo: any) => sum + repo.stargazerCount, 0)
-        const totalForks = repos.reduce((sum: number, repo: any) => sum + repo.forkCount, 0)
+        const totalStars = repos.reduce((sum: number, repo: GitHubRepository) => sum + repo.stargazerCount, 0)
+        const totalForks = repos.reduce((sum: number, repo: GitHubRepository) => sum + repo.forkCount, 0)
 
         // Get language distribution
         const languageStats = repos
-            .filter((repo: any) => repo.primaryLanguage)
-            .reduce((acc: any, repo: any) => {
-                const lang = repo.primaryLanguage.name
+            .filter((repo: GitHubRepository) => repo.primaryLanguage)
+            .reduce((acc: Record<string, number>, repo: GitHubRepository) => {
+                const lang = repo.primaryLanguage?.name
                 acc[lang] = (acc[lang] || 0) + 1
                 return acc
             }, {})
 
         const topLanguages = Object.entries(languageStats)
-            .sort(([, a]: any, [, b]: any) => b - a)
+            .sort(([, a]: [string, number], [, b]: [string, number]) => b - a)
             .slice(0, 5)
             .map(([name, count]) => ({ name, count, percentage: Math.round(((count as number) / repos.length) * 100) }))
 
@@ -193,8 +241,8 @@ export async function GET() {
             topLanguages,
 
             // Repository insights
-            publicRepos: repos.filter((repo: any) => !repo.isPrivate).length,
-            privateRepos: repos.filter((repo: any) => repo.isPrivate).length,
+            publicRepos: repos.filter((repo: GitHubRepository) => !repo.isPrivate).length,
+            privateRepos: repos.filter((repo: GitHubRepository) => repo.isPrivate).length,
         }
 
         console.log("📊 REAL GitHub stats compiled:", {

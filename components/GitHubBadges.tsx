@@ -1,10 +1,18 @@
 "use client"
 
+import type React from "react"
+
 import { useEffect, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { Trophy, Star, Users, Calendar, Gamepad2, Search, Zap, Heart, Brain, Target } from "lucide-react"
 import Image from "next/image"
+
+interface GitHubProfile {
+    public_repos: number
+    followers: number
+    created_at: string
+}
 
 interface GitHubAchievement {
     id: string
@@ -27,7 +35,7 @@ interface ProfileBadge {
 }
 
 interface BadgeData {
-    profile: any
+    profile: GitHubProfile
     achievements: GitHubAchievement[]
     profileBadges: ProfileBadge[]
     stats: {
@@ -63,7 +71,7 @@ export function GitHubBadges() {
     }, [])
 
     const getIconComponent = (iconName: string) => {
-        const iconMap: { [key: string]: any } = {
+        const iconMap: { [key: string]: React.ComponentType<{ className?: string }> } = {
             "🦈": Target,
             "⚡": Zap,
             "👥": Users,
@@ -151,7 +159,7 @@ export function GitHubBadges() {
 
             {/* Real GitHub Achievements Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {achievements.map((achievement, index) => {
+                {achievements.map((achievement) => {
                     const IconComponent = getIconComponent(achievement.icon)
                     const tierColor = getTierColor(achievement.tier)
 
@@ -160,7 +168,7 @@ export function GitHubBadges() {
                             key={achievement.id}
                             className="group relative overflow-hidden p-4 bg-gradient-to-br from-black/80 to-gray-900/80 border-2 border-lime-400/30 rounded-xl backdrop-blur-sm hover:border-lime-400/60 transition-all duration-300 hover:scale-105 cursor-pointer"
                             style={{
-                                animationDelay: `${index * 100}ms`,
+                                animationDelay: `${achievements.indexOf(achievement) * 100}ms`,
                             }}
                         >
                             {/* Tier Glow Background */}
@@ -228,7 +236,7 @@ export function GitHubBadges() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {profileBadges.map((badge, index) => {
+                        {profileBadges.map((badge) => {
                             const IconComponent = getIconComponent(badge.icon)
                             const tierColor = getTierColor(badge.tier)
 

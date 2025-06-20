@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Shield, Wifi, Terminal, Zap, Eye, Brain, Database, Lock, Activity } from "lucide-react"
 
@@ -35,19 +35,22 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
         { x: 20, y: 80, speed: 0.3, color: "#ef4444" },
     ]
 
-    // System messages for different phases
-    const messages = [
-        "🔧 Initializing quantum processors...",
-        "🧠 Establishing neural link...",
-        "🔒 Decrypting security protocols...",
-        "💻 Loading cybernetic interface...",
-        "📡 Synchronizing data streams...",
-        "🎯 Activating holographic display...",
-        "👁️ Calibrating biometric sensors...",
-        "🌐 Connecting to the mainframe...",
-        "⚡ Uploading consciousness...",
-        "✅ System ready. Welcome to the future.",
-    ]
+    // Move this inside the component, before the useEffect
+    const messages = useMemo(
+        () => [
+            "🔧 Initializing quantum processors...",
+            "🧠 Establishing neural link...",
+            "🔒 Decrypting security protocols...",
+            "💻 Loading cybernetic interface...",
+            "📡 Synchronizing data streams...",
+            "🎯 Activating holographic display...",
+            "👁️ Calibrating biometric sensors...",
+            "🌐 Connecting to the mainframe...",
+            "⚡ Uploading consciousness...",
+            "✅ System ready. Welcome to the future.",
+        ],
+        [],
+    )
 
     // Handle completion
     const handleCompletion = useCallback(() => {
