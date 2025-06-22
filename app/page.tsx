@@ -186,7 +186,7 @@ export default function Home() {
                       <h1
                           className={`text-4xl lg:text-5xl font-bold mb-3 text-white ${glitchActive ? "animate-glitch-text-subtle" : ""}`}
                       >
-                        ARAXYSO
+                        ZINNY
                       </h1>
 
                       {/* Clean subtitle */}
