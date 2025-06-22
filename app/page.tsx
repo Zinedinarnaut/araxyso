@@ -20,12 +20,8 @@ import {
   Calendar,
   Award,
   Wifi,
-  Star,
-  Activity,
-  Users,
   Coffee,
   Headphones,
-  Code,
   Shield,
   Brain,
   Database,
@@ -39,14 +35,7 @@ import { GitHubBadges } from "@/components/GitHubBadges"
 const socialLinks = [
   { name: "GitHub", icon: Github, url: "https://github.com/zinedinarnaut" },
   { name: "LinkedIn", icon: Linkedin, url: "https://www.linkedin.com/in/zinedinarnaut" },
-  { name: "Email", icon: Mail, url: "mailto:inquiries@nanite.tech" },
-]
-
-const stats = [
-  { label: "Projects", value: "42", icon: Code },
-  { label: "Commits", value: "1.2k", icon: Activity },
-  { label: "Stars", value: "89", icon: Star },
-  { label: "Followers", value: "156", icon: Users },
+  { name: "Email", icon: Mail, url: "mailto:zinedinarnaut085@gmail.com" },
 ]
 
 // Deterministic particle positions to avoid hydration issues
@@ -219,23 +208,6 @@ export default function Home() {
                           <Award className="inline w-3 h-3 mr-1" />
                           Est. 2020
                         </div>
-                      </div>
-
-                      {/* Clean Stats Grid */}
-                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                        {stats.map((stat) => (
-                            <div key={stat.label} className="group cursor-pointer">
-                              <div className="p-4 bg-gray-900/50 border border-gray-700 rounded-xl backdrop-blur-sm hover:border-emerald-400/30 transition-all duration-300 hover:bg-gray-800/50">
-                                <div className="text-center">
-                                  <stat.icon className="w-5 h-5 mx-auto mb-2 text-gray-400 group-hover:text-emerald-400 transition-colors" />
-                                  <div className="text-xl font-bold text-white">{stat.value}</div>
-                                  <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">
-                                    {stat.label}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                        ))}
                       </div>
 
                       {/* Clean Action Buttons */}

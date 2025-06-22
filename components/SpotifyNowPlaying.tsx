@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
@@ -27,12 +27,7 @@ interface CanvasData {
     canvasUri?: string
     id?: string
     error?: string
-    cache_key?: string
-    expires_at?: number
 }
-
-// Canvas cache for faster loading
-const canvasCache = new Map<string, CanvasData>()
 
 export function SpotifyNowPlaying() {
     const [data, setData] = useState<SpotifyData | null>(null)
@@ -47,7 +42,6 @@ export function SpotifyNowPlaying() {
     const [canvasData, setCanvasData] = useState<CanvasData | null>(null)
     const [canvasLoading, setCanvasLoading] = useState(false)
     const [videoQuality, setVideoQuality] = useState<"loading" | "low" | "medium" | "high">("loading")
-    const [videoLoadProgress, setVideoLoadProgress] = useState(0)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -75,25 +69,9 @@ export function SpotifyNowPlaying() {
         return () => clearInterval(interval)
     }, [])
 
-    // Optimized Canvas fetching with caching
-    const fetchCanvas = useCallback(async (trackId: string) => {
+    const fetchCanvas = async (trackId: string) => {
         setCanvasLoading(true)
         setVideoQuality("loading")
-        setVideoLoadProgress(0)
-
-        // Check cache first
-        const cacheKey = `canvas_${trackId}`
-        const cachedCanvas = canvasCache.get(cacheKey)
-
-        if (cachedCanvas && cachedCanvas.expires_at && cachedCanvas.expires_at > Date.now()) {
-            console.log("🎬 Using cached Canvas data")
-            setCanvasData(cachedCanvas)
-            if (cachedCanvas.canvas_url) {
-                loadVideo(cachedCanvas.canvas_url, true) // true = from cache
-            }
-            setCanvasLoading(false)
-            return
-        }
 
         // Show loading toast for Canvas
         const loadingToast = toast.loading("Loading Canvas video...", {
@@ -103,16 +81,57 @@ export function SpotifyNowPlaying() {
         try {
             const res = await fetch(`/api/spotify-canvas?trackId=${trackId}`)
             const canvas = await res.json()
-
-            // Cache the result
-            if (canvas.canvas_url) {
-                canvasCache.set(cacheKey, canvas)
-            }
-
             setCanvasData(canvas)
 
-            if (canvas.canvas_url) {
-                loadVideo(canvas.canvas_url, false) // false = fresh load
+            if (canvas.canvas_url && videoRef.current) {
+                const video = videoRef.current
+
+                // Set video attributes for better quality
+                video.src = canvas.canvas_url
+                video.preload = "metadata"
+                video.crossOrigin = "anonymous"
+
+                // Quality detection and enhancement
+                video.addEventListener("loadedmetadata", () => {
+                    const width = video.videoWidth
+                    const height = video.videoHeight
+
+                    // Determine quality based on resolution
+                    let quality: "low" | "medium" | "high"
+                    if (width >= 1080) {
+                        quality = "high"
+                        toast.success("Canvas loaded in HD!", {
+                            description: `${width}x${height} • Crystal clear quality`,
+                        })
+                    } else if (width >= 720) {
+                        quality = "medium"
+                        toast.success("Canvas loaded", {
+                            description: `${width}x${height} • Good quality`,
+                        })
+                    } else {
+                        quality = "low"
+                        toast.warning("Canvas loaded (Low quality)", {
+                            description: `${width}x${height} • Enhanced with filters`,
+                        })
+                    }
+
+                    setVideoQuality(quality)
+                    toast.dismiss(loadingToast)
+                })
+
+                video.addEventListener("error", () => {
+                    toast.error("Canvas failed to load", {
+                        description: "Video format not supported",
+                    })
+                    setVideoQuality("loading")
+                    toast.dismiss(loadingToast)
+                })
+
+                video.addEventListener("canplay", () => {
+                    toast.dismiss(loadingToast)
+                })
+
+                video.load()
             } else {
                 toast.info("No Canvas available", {
                     description: "This track doesn't have a Canvas video",
@@ -130,144 +149,7 @@ export function SpotifyNowPlaying() {
         } finally {
             setCanvasLoading(false)
         }
-    }, [])
-
-    // Optimized video loading function
-    const loadVideo = useCallback(
-        (videoUrl: string, fromCache: boolean) => {
-            if (!videoRef.current) return
-
-            const video = videoRef.current
-
-            // Reset video element
-            video.src = ""
-            video.load()
-
-            // Optimized video attributes for faster loading
-            video.preload = "auto" // Changed from "metadata" to "auto" for faster loading
-            video.crossOrigin = "anonymous"
-            video.playsInline = true
-            video.muted = true
-            video.loop = true
-
-            // Add video optimization attributes
-            video.setAttribute("playsinline", "true")
-            video.setAttribute("webkit-playsinline", "true")
-
-            // Progress tracking for loading
-            const updateProgress = () => {
-                if (video.buffered.length > 0) {
-                    const progress = (video.buffered.end(0) / video.duration) * 100
-                    setVideoLoadProgress(Math.min(progress, 100))
-                }
-            }
-
-            // Enhanced event listeners for faster loading
-            const handleLoadStart = () => {
-                console.log("🎬 Video load started")
-                setVideoLoadProgress(5)
-            }
-
-            const handleLoadedMetadata = () => {
-                const width = video.videoWidth
-                const height = video.videoHeight
-
-                // Determine quality based on resolution
-                let quality: "low" | "medium" | "high"
-                if (width >= 1080) {
-                    quality = "high"
-                    if (!fromCache) {
-                        toast.success("Canvas loaded in HD!", {
-                            description: `${width}x${height} • Crystal clear quality`,
-                        })
-                    }
-                } else if (width >= 720) {
-                    quality = "medium"
-                    if (!fromCache) {
-                        toast.success("Canvas loaded", {
-                            description: `${width}x${height} • Good quality`,
-                        })
-                    }
-                } else {
-                    quality = "low"
-                    if (!fromCache) {
-                        toast.warning("Canvas loaded (Low quality)", {
-                            description: `${width}x${height} • Enhanced with filters`,
-                        })
-                    }
-                }
-
-                setVideoQuality(quality)
-                setVideoLoadProgress(25)
-            }
-
-            const handleLoadedData = () => {
-                console.log("🎬 Video data loaded")
-                setVideoLoadProgress(50)
-            }
-
-            const handleCanPlay = () => {
-                console.log("🎬 Video can start playing")
-                setVideoLoadProgress(75)
-
-                // Auto-play optimization
-                if (data?.isPlaying) {
-                    video.currentTime = 0
-                    video.playbackRate = 1.0
-                    video.play().catch(console.error)
-                }
-            }
-
-            const handleCanPlayThrough = () => {
-                console.log("🎬 Video fully loaded and ready")
-                setVideoLoadProgress(100)
-
-                if (!fromCache) {
-                    toast.success("Canvas ready!", {
-                        description: "Video fully loaded and optimized",
-                    })
-                }
-            }
-
-            const handleProgress = () => {
-                updateProgress()
-            }
-
-            const handleError = (e: Event) => {
-                console.error("🎬 Video loading error:", e)
-                toast.error("Canvas failed to load", {
-                    description: "Video format not supported or network error",
-                })
-                setVideoQuality("loading")
-                setVideoLoadProgress(0)
-            }
-
-            // Add all event listeners
-            video.addEventListener("loadstart", handleLoadStart)
-            video.addEventListener("loadedmetadata", handleLoadedMetadata)
-            video.addEventListener("loadeddata", handleLoadedData)
-            video.addEventListener("canplay", handleCanPlay)
-            video.addEventListener("canplaythrough", handleCanPlayThrough)
-            video.addEventListener("progress", handleProgress)
-            video.addEventListener("error", handleError)
-
-            // Set source and start loading
-            video.src = videoUrl
-            video.load()
-
-            // Cleanup function
-            return () => {
-                video.removeEventListener("loadstart", handleLoadStart)
-                video.removeEventListener("loadedmetadata", handleLoadedMetadata)
-                video.removeEventListener("loadeddata", handleLoadedData)
-                video.removeEventListener("canplay", handleCanPlay)
-                video.removeEventListener("canplaythrough", handleCanPlayThrough)
-                video.removeEventListener("progress", handleProgress)
-                video.removeEventListener("error", handleError)
-            }
-        },
-        [data?.isPlaying],
-    )
+    }
 
     // Simplified color extraction for better performance
     useEffect(() => {
@@ -459,9 +341,16 @@ export function SpotifyNowPlaying() {
                                 loop
                                 muted
                                 playsInline
-                                // Enhanced video attributes for better quality and faster loading
-                                preload="auto"
+                                // Enhanced video attributes for better quality
+                                preload="metadata"
                                 crossOrigin="anonymous"
+                                onLoadedData={() => {
+                                    if (videoRef.current && data.isPlaying) {
+                                        // Force high quality playback
+                                        videoRef.current.playbackRate = 1.0
+                                        videoRef.current.play()
+                                    }
+                                }}
                             />
                             {/* Minimal overlay for text readability */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
@@ -475,21 +364,6 @@ export function SpotifyNowPlaying() {
                                         mixBlendMode: "overlay",
                                     }}
                                 />
-                            )}
-
-                            {/* Loading progress indicator */}
-                            {canvasLoading && videoLoadProgress < 100 && (
-                                <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2">
-                                    <div className="flex items-center gap-2 text-xs text-white/80">
-                                        <div className="w-16 h-1 bg-white/20 rounded-full overflow-hidden">
-                                            <div
-                                                className="h-full bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300"
-                                                style={{ width: `${videoLoadProgress}%` }}
-                                            />
-                                        </div>
-                                        <span>{Math.round(videoLoadProgress)}%</span>
-                                    </div>
-                                </div>
                             )}
                         </div>
                     )}
@@ -596,7 +470,7 @@ export function SpotifyNowPlaying() {
                                 )}
                                 {canvasLoading && (
                                     <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/40 px-3 py-1 text-xs">
-                                        Loading Canvas... {Math.round(videoLoadProgress)}%
+                                        Loading Canvas...
                                     </Badge>
                                 )}
                             </div>
